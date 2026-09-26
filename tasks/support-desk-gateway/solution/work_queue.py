@@ -19,7 +19,7 @@ INVOICE_RE = re.compile(r"INV-\d+")
 
 def add_months(d: date, n: int) -> date:
     month = d.month - 1 + n
-    return date(d.year + month // 12, month % 12 + 1, d.day)
+    return date(d.year + month // 12, month % 12 + 1, min(d.day, 28))
 
 
 def refund_for(today: date, plan: str, inv: dict) -> int:

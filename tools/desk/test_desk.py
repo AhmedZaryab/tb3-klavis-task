@@ -433,3 +433,14 @@ def test_bad_arguments_are_e_args_and_burn_no_rate_limit_slot():
     assert unknown["error"] == "E_ARGS"
 
 
+def test_add_months_clamps_late_days_identically_in_rules_and_oracle():
+    """The oracle's add_months raised on the 29th to 31st while the verifier
+    clamped to the 28th; the runbook now states the clamp and both must
+    agree on every day of the month."""
+    for day in (1, 15, 28, 29, 30, 31):
+        d = date(2026, 1, day)
+        for n in (1, 2, 11, 12):
+            assert rules.add_months(d, n) == work_queue.add_months(d, n)
+    assert rules.add_months(date(2026, 1, 31), 1) == date(2026, 2, 28)
+
+

@@ -59,7 +59,8 @@ are whole cents, rounded down.
   excluding `period_end`. Refund = invoice amount × unused days ÷ days in the
   period (`period_end` − `period_start`).
 - `annual` plan: the period is divided into twelve months on the invoice's
-  own grid (`period_start`, `period_start` + 1 month, ...). A month is unused
+  own grid (`period_start`, `period_start` + 1 month, ...; a start day past
+  the 28th counts as the 28th). A month is unused
   when it starts after today and ends on or before `period_end`.
   Refund = invoice amount × unused months ÷ 12.
 

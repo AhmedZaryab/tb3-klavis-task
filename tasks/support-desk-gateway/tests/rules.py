@@ -15,7 +15,7 @@ def add_months(d: date, n: int) -> date:
     month = d.month - 1 + n
     year = d.year + month // 12
     month = month % 12 + 1
-    return date(year, month, min(d.day, 28) if d.day > 28 else d.day)
+    return date(year, month, min(d.day, 28))
 
 
 def unused_days(today: date, period_end: date) -> int:
