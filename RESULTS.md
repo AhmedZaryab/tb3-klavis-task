@@ -109,3 +109,36 @@ Feasibility probe (2 h cap):
 Verdict: a truthful interactive system with a stated goal is learned by this model in minutes, even with
 terse help. Making it harder from here would mean lying in the help or hiding state from STATUS, which the
 rubric forbids. The gateway line of design is closed; the package stays as the record.
+
+## Candidate 4: gateway-metering-forensics (retired)
+
+A week of an agent gateway's billing ledger disagrees with its policy because of five metering defects
+that overlap on the same requests. The agent must produce the corrected ledger and identify the distinct
+defects with the requests each one affected. The defect list is graded on count and on each affected set,
+up to relabeling. Chosen because it is the one pattern in the candidate survey with a clean 6/6 win against
+both agents that had not been tried: a judgment that recomputation cannot confirm.
+
+Checks (`tasks/gateway-metering-forensics`, branch `ticket/tb3-original-task/candidate-forensics-task`):
+
+| Check | Result |
+|---|---|
+| Static checks | 25/25 pass |
+| Docker build | environment and verifier images build; the verifier regenerates the truth from the seed |
+| Oracle | reward 1.0, 14/14 |
+| Nop | reward 0.0 |
+| Cheat artifact (legacy ledger copied, one catch-all defect) | reward 0.0, 13/14 fail |
+
+Data: 121,001 requests, 8.5% affected by at least one defect (D1 2,050, D2 1,956, D3 1,570, D4 2,003,
+D5 3,431), 291 by exactly two, 212 by three.
+
+Feasibility probe (2 h cap):
+
+| Agent | Model | Effort | Reward | Time | Notes |
+|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 6 min 16 s | 20 tool calls; recomputed the ledger, diffed, and reported exactly five defects with the exact affected sets |
+
+Verdict: with every policy rule stated, each defect is a clean single-rule deviation and the grouping is
+mechanical, not a judgment. The pattern that beat earlier models needed mechanisms that no stated rule
+pins down, and that is the kind of hidden rule the rubric forbids. Retired. This closes the design search:
+four candidates, each passing every CI gate, each solved by Claude Opus 5.5 at max reasoning in 4 to 71
+minutes. The required trial matrix runs on candidate 1.
