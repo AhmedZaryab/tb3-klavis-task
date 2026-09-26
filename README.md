@@ -4,7 +4,9 @@ One original [Terminal-Bench 3](https://github.com/harbor-framework/terminal-ben
 
 - `tasks/` — the task candidates, each a complete TB3 task package
 - `tools/` — the tooling used to build, calibrate and probe them
-- `RESULTS.md` — every check, every trial, and why each candidate was kept or retired
+- `RESULTS.md` — the research log: the method once (question, hypothesis rule, controls, measures, kill test), then every candidate under the same headings, then status against the brief and next steps
+
+The git history follows the same loop: one branch per candidate, commit prefixes `prepare`, `impl`, `test`, `fix`, `verify`, `docs(epic)`, `merge` map to its steps (see section 1.7 of `RESULTS.md`).
 
 ## Status
 
