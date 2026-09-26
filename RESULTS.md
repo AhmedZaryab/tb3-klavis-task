@@ -454,53 +454,49 @@ shape is necessary but not sufficient. The official zero-score tasks also carry 
 read up front (event feeds at cutoffs, scanned images that override structured data), which a complete
 runbook by definition does not. That is the axis for the next design (section 9).
 
-## Analysis
+## 7. Analysis across candidates
 
-### What the six standard trials show
+### 7.1 What the trials show
 
-The brief asks for a task that both agents fail three times out of three. This repository does not deliver
-that. Across four candidate designs, every one passing every CI gate, Claude Opus 5.5 at maximum
-reasoning solved each in the first attempt: 71, 4, 6 and 6 minutes in the probes, and 99, 39 and 92
+The brief asks for a task that both agents fail three times out of three. This repository does not yet
+deliver that. Across five candidate designs, four of them passing every CI gate, Claude Opus 5.5 at maximum
+reasoning solved each on the first attempt: 71, 4, 6, 6 and 9 minutes in the kill tests, and 99, 39 and 92
 minutes in the three required trials on candidate 1. No trial crashed, timed out, hit a rate limit or
-refused; every pass is genuine.
+refused; every pass is genuine. The codex half of the matrix has not been run.
 
-### Why the models succeed
+### 7.2 Why the models succeed
 
 Each candidate was built on a documented weakness and each was solved for the same reason: once a task is
 fair by the TB3 rubric, its difficulty is written down somewhere the model can read, and this model reads
 everything. In the transcripts it reads the format and the checker first, states the modelling idea within
 minutes, builds several independent checkers of its own, and stops only when they agree.
 
-- Candidate 1 asked for an algorithmic insight (the token bucket relaxes exactly into a min-cost flow). The
-  insight is textbook for a model trained on operations research; a generic LP solver cannot scale, but the
-  model never tried one. It went straight to the flow.
-- Candidate 2 asked for compression under a fixed lexical router. The reference solution could not reach a
-  fair bar, so the task was unfair before it was hard.
-- Candidate 3 asked the model to learn an unfamiliar stateful system by interacting with it. With honest
-  help and a truthful status command, that is a few dozen requests of reading. Making the help terse and the
-  state deferred added two minutes.
-- Candidate 4 asked for a judgment that recomputation cannot confirm: how many distinct defects explain a
-  ledger. With every billing rule stated, each defect is a clean single-rule deviation and the grouping is
-  mechanical.
+- Candidate 1 asked for an algorithmic insight. The insight is textbook for a model trained on operations
+  research; a generic LP solver cannot scale, but the model never tried one.
+- Candidate 2 asked for compression under a fixed lexical router. The reference could not reach a fair bar,
+  so the task was unfair before it was hard.
+- Candidate 3 asked the model to learn an unfamiliar stateful system by interacting with it. With honest help
+  and a truthful status command, that is a few dozen requests of reading. Terse help and deferred state added
+  two minutes.
+- Candidate 4 asked for a judgment that recomputation cannot confirm. With every billing rule stated, each
+  defect is a clean single-rule deviation and the grouping is mechanical.
+- Candidate 5 put the leaderboard's hardest shape behind a 266-tool MCP gateway. The model used the gateway
+  natively, picked the right tool 149 times out of 149, and matched the reference's call pattern. Its harness
+  loads tools lazily, and the runbook named the path.
 
-- Candidate 5 put the leaderboard's hardest shape (irreversible state, waves, interacting rules,
-  lifecycle grading) behind a 266-tool MCP gateway. The model used the gateway natively, picked the
-  right tool 149 times out of 149, and matched the reference's call pattern. The tool bloat that breaks
-  agents in production did not reach it: its harness loads tools lazily, and the runbook named the path.
+The pattern across the published attempts surveyed holds here: what still beats these models is knowledge
+that cannot be written down without becoming a hidden rule (real document layouts, real legacy runtime
+quirks, event feeds revealed at cutoffs), or physical and numerical problems in specialist domains. In the
+agent-gateway domain, every rule can be stated, and a stated rule is a solved rule, even with 266 tools
+between the agent and the ledger.
 
-The pattern across the published attempts we surveyed holds here: what still beats these models is
-knowledge that cannot be written down without becoming a hidden rule (real document layouts, real legacy
-runtime quirks, event feeds revealed at cutoffs), or physical and numerical problems in specialist
-domains. In the agent-gateway domain, where the author's expertise lies, every rule can be stated, and a
-stated rule is a solved rule, even when 266 tools stand between the agent and the ledger.
+### 7.3 Where the models actually fail: the official per-task data
 
-### Where the models actually fail: the official per-task data
-
-The analysis above was written from the four probes and from published reports. Before choosing a fifth
-design it was checked against the official leaderboard runs themselves. The leaderboard submission files
-in the Terminal-Bench repository (`leaderboard/submissions/*.json`) name the Harbor Hub jobs behind each
-score, and the Hub's `get_job_tasks` endpoint returns the per-task reward for a public job without a
-login. Pulled on 2026-09-26: 66 tasks in the current set, 13 agent and model pairs, 5 attempts each.
+Before choosing the fifth design, the analysis above was checked against the official leaderboard runs
+themselves. The leaderboard submission files in the Terminal-Bench repository
+(`leaderboard/submissions/*.json`) name the Harbor Hub jobs behind each score, and the Hub's `get_job_tasks`
+endpoint returns the per-task reward for a public job without a login. Pulled on 2026-09-26: 66 tasks in the
+current set, 13 agent and model pairs, 5 attempts each.
 
 | Pair (agent, model, effort) | Accuracy | pass@5 |
 |---|---|---|
@@ -512,57 +508,65 @@ Neither of the brief's models (`claude-opus-5-5`, `gpt-6-sol`) is on the officia
 
 By category, the mean pass rate over all 13 pairs is lowest for Operations (0.20 over 9 tasks) and highest
 for Security (0.46 over 5). Thirteen tasks are failed by both `claude-opus-5` and `gpt-5.6-sol` on every
-attempt; ten of those also defeat `claude-fable-5-1` every time. Reading those ten, the shape is the same
-in each:
+attempt; ten of those also defeat `claude-fable-5-1` every time. Reading those ten, the shape is the same:
 
-- State that changes under the agent and cannot be undone. A freight dispatch desk where the verifier
-  asks for plans at several cutoffs during a shift and grades every commitment made along the way.
+- State that changes under the agent and cannot be undone. A freight dispatch desk where the verifier asks
+  for plans at several cutoffs during a shift and grades every commitment made along the way.
 - Information that arrives over time, so the agent must act before it has seen the whole problem.
 - Many small rules that interact: driver hours, supplier cutoffs, tolls and delivery windows, each simple,
   together a trap.
 - Grading on the whole lifecycle, all or nothing.
-- Truth split across sources: in the one official task that exposes an MCP server to the agent, the
-  invoice images override the structured data. That task scores 0 for all 13 pairs.
+- Truth split across sources: in the one official task that exposes an MCP server to the agent, the invoice
+  images override the structured data. That task scores 0 for all 13 pairs.
 
 The solved tasks are the mirror image: one artifact, computed offline, checkable by the model before it
-hands it in. Candidates 1, 3 and 4 in this repository are all of that shape, and each was solved in
-minutes. Candidate 3 had a live gateway but a small state that a status command reported truthfully, so
-the model read it and walked through.
+hands it in. Candidates 1, 3 and 4 are all of that shape. Candidate 3 had a live gateway but a small state
+that a status command reported truthfully.
 
-Outside Terminal-Bench, the tool-calling numbers point the same way. Anthropic's own documentation says
-tool selection degrades past 30 to 50 tools. On MCP-Atlas (220 tools, 36 servers) the best model reaches
-62%; on MCPMark the best single-attempt rate is 52.6% and the four-in-a-row rate 33.9%; on LiveMCPBench
-(527 tools) about half of all failures are a wrong tool pick.
+Outside Terminal-Bench, the tool-calling numbers point the same way. Anthropic's own documentation says tool
+selection degrades past 30 to 50 tools. On MCP-Atlas (220 tools, 36 servers) the best model reaches 62%; on
+MCPMark the best single-attempt rate is 52.6% and the four-in-a-row rate 33.9%; on LiveMCPBench (527 tools)
+about half of all failures are a wrong tool pick.
 
-### Decision: candidate 5, a support desk behind a 250-tool gateway
+### 7.4 What candidate 5 added
 
-The author's production experience with an agent gateway is the second input to this decision. With a few
-hundred tools behind one aggregator key, agents picked look-alike tools, made thirty or more calls where
-two or three were needed, retried straight into rate limits, and went down wrong paths that a fresh
-context would not have taken. Runaway protection had to be added to the gateway. None of the first four
-candidates reproduced that setting: they gave the model a terminal and a file, not a tool surface.
+Candidate 5 had every item on the leaderboard list except one, and was solved in nine minutes. The missing
+item is the one the ten zero-score tasks all share and a complete runbook cannot: information the agent
+cannot read before it must act. Waves that are released as earlier work completes are not enough when their
+content follows the same stated rules; what defeats the models is content that changes the right answer to
+work already done, or truth that lives in a source the agent must go and read (a scan, a feed at a cutoff)
+rather than in the rules. That is fair under the rubric as long as the instruction says the source exists.
 
-Candidate 5 combines the two findings. The hard core is the Operations shape from the data: a customer
-support escalation queue where refunds and messages cannot be undone, follow-ups arrive as earlier cases
-are resolved, a dozen stated rules interact (proration by plan, chargeback holds, invoice ownership,
-one refund per invoice, channel and locale), and the verifier grades the whole lifecycle from the
-gateway's own ledger. The tool surface is the production setting: every backend sits behind one MCP
-gateway that Harbor registers directly into `claude-code` and `codex`, about 250 tools across 22 services
-with deprecated, sandbox and legacy look-alikes described honestly, a rate limit with retry-after on
-billing, and a call budget that ends the run when it is spent. The tools are a multiplier; the state
-machine is the difficulty, so writing a client script does not remove it.
+### 7.5 What this repository shows so far
 
-Everything is stated in the runbook. Nothing is hidden except the expected end state, which the verifier
-computes from the same seed. The kill test is unchanged: a two-hour Opus 5.5 probe before the matrix.
+Five complete TB3 task packages, four of them CI-clean with sealed verifiers, honest oracles and cheat
+artifacts that all score zero; a kill-test discipline that measured each design against the target model
+within hours of building it; and a record, in the git history and in this file, of what was tried, what it
+cost, and why each line was closed.
 
-Outcome (recorded in the Candidate 5 section above): the probe passed in 9.4 minutes with no wrong tool
-calls and no errors. The leaderboard shape is necessary but not sufficient: the official zero-score tasks
-also carry information the agent cannot read up front (event feeds at cutoffs, scanned images that
-override data), which a stated runbook by definition does not.
+## 8. Status against the brief
 
-### What this repository shows instead
+| Requirement | Status |
+|---|---|
+| Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5. Candidate 2 shelved before the gates. |
+| Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5. |
+| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes. Requirement not met. |
+| `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
+| `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0. |
+| `/cheat` codex x1, reward 0 | Not run. |
+| Failure analysis | Written for the passes (section 7); there are no model failures to analyse yet. |
+| Commands, configs, results documented | This file and `tools/run-trial.sh`. |
 
-Five complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
-score zero; a kill-test discipline that measured each design against the target model within hours of
-building it; and a record, in the git history and in this file, of what was tried, what it cost, and why
-each line was closed.
+## 9. Next steps, in loop order
+
+1. Hypothesis first. Write the decision record for candidate 6 before any build commit. The axis, from
+   section 7.4: keep candidate 5's gateway and lifecycle grading, and add a source of truth the agent must
+   read on its own (a feed released at stated cutoffs whose entries change the right answer for work already
+   done), named in the instruction so the task stays fair. Prediction, falsifier and kill test as in 1.2.
+2. Complete the codex half of the record on candidate 1: `codex login`, then three `/run` trials and one
+   `/cheat` trial through `tools/run-trial.sh`, so the brief's matrix has a codex result on the same task as
+   the Claude result.
+3. Build candidate 6, pass the gates, run the kill test. If it survives, run the six-trial matrix and the two
+   adversarial trials on it; if not, one hardening revision, then retire and record.
+4. Analyse every transcript, pass or fail, under the headings in section 1.5, and record it here the same
+   day as the run.
