@@ -1,0 +1,304 @@
+{
+  "rate_cards": {
+    "2026-09-13": {
+      "model-1": {
+        "input": 1300000,
+        "output": 5200000
+      },
+      "model-2": {
+        "input": 1600000,
+        "output": 6400000
+      },
+      "model-3": {
+        "input": 1900000,
+        "output": 7600000
+      },
+      "model-4": {
+        "input": 2200000,
+        "output": 8800000
+      },
+      "model-5": {
+        "input": 2500000,
+        "output": 10000000
+      },
+      "model-6": {
+        "input": 2800000,
+        "output": 11200000
+      }
+    },
+    "2026-09-14": {
+      "model-1": {
+        "input": 1300000,
+        "output": 5200000
+      },
+      "model-2": {
+        "input": 1600000,
+        "output": 6400000
+      },
+      "model-3": {
+        "input": 1900000,
+        "output": 7600000
+      },
+      "model-4": {
+        "input": 2200000,
+        "output": 8800000
+      },
+      "model-5": {
+        "input": 2500000,
+        "output": 10000000
+      },
+      "model-6": {
+        "input": 2800000,
+        "output": 11200000
+      }
+    },
+    "2026-09-15": {
+      "model-1": {
+        "input": 1300000,
+        "output": 5200000
+      },
+      "model-2": {
+        "input": 1600000,
+        "output": 6400000
+      },
+      "model-3": {
+        "input": 1900000,
+        "output": 7600000
+      },
+      "model-4": {
+        "input": 2200000,
+        "output": 8800000
+      },
+      "model-5": {
+        "input": 2500000,
+        "output": 10000000
+      },
+      "model-6": {
+        "input": 2800000,
+        "output": 11200000
+      }
+    },
+    "2026-09-16": {
+      "model-1": {
+        "input": 1300000,
+        "output": 5200000
+      },
+      "model-2": {
+        "input": 1600000,
+        "output": 6400000
+      },
+      "model-3": {
+        "input": 1900000,
+        "output": 7600000
+      },
+      "model-4": {
+        "input": 2200000,
+        "output": 8800000
+      },
+      "model-5": {
+        "input": 2500000,
+        "output": 10000000
+      },
+      "model-6": {
+        "input": 2800000,
+        "output": 11200000
+      }
+    },
+    "2026-09-17": {
+      "model-1": {
+        "input": 1404000,
+        "output": 5616000
+      },
+      "model-2": {
+        "input": 1728000,
+        "output": 6912000
+      },
+      "model-3": {
+        "input": 2052000,
+        "output": 8208000
+      },
+      "model-4": {
+        "input": 2376000,
+        "output": 9504000
+      },
+      "model-5": {
+        "input": 2700000,
+        "output": 10800000
+      },
+      "model-6": {
+        "input": 3024000,
+        "output": 12096000
+      }
+    },
+    "2026-09-18": {
+      "model-1": {
+        "input": 1404000,
+        "output": 5616000
+      },
+      "model-2": {
+        "input": 1728000,
+        "output": 6912000
+      },
+      "model-3": {
+        "input": 2052000,
+        "output": 8208000
+      },
+      "model-4": {
+        "input": 2376000,
+        "output": 9504000
+      },
+      "model-5": {
+        "input": 2700000,
+        "output": 10800000
+      },
+      "model-6": {
+        "input": 3024000,
+        "output": 12096000
+      }
+    },
+    "2026-09-19": {
+      "model-1": {
+        "input": 1404000,
+        "output": 5616000
+      },
+      "model-2": {
+        "input": 1728000,
+        "output": 6912000
+      },
+      "model-3": {
+        "input": 2052000,
+        "output": 8208000
+      },
+      "model-4": {
+        "input": 2376000,
+        "output": 9504000
+      },
+      "model-5": {
+        "input": 2700000,
+        "output": 10800000
+      },
+      "model-6": {
+        "input": 3024000,
+        "output": 12096000
+      }
+    },
+    "2026-09-20": {
+      "model-1": {
+        "input": 1404000,
+        "output": 5616000
+      },
+      "model-2": {
+        "input": 1728000,
+        "output": 6912000
+      },
+      "model-3": {
+        "input": 2052000,
+        "output": 8208000
+      },
+      "model-4": {
+        "input": 2376000,
+        "output": 9504000
+      },
+      "model-5": {
+        "input": 2700000,
+        "output": 10800000
+      },
+      "model-6": {
+        "input": 3024000,
+        "output": 12096000
+      }
+    },
+    "2026-09-21": {
+      "model-1": {
+        "input": 1404000,
+        "output": 5616000
+      },
+      "model-2": {
+        "input": 1728000,
+        "output": 6912000
+      },
+      "model-3": {
+        "input": 2052000,
+        "output": 8208000
+      },
+      "model-4": {
+        "input": 2376000,
+        "output": 9504000
+      },
+      "model-5": {
+        "input": 2700000,
+        "output": 10800000
+      },
+      "model-6": {
+        "input": 3024000,
+        "output": 12096000
+      }
+    }
+  },
+  "tenants": {
+    "tenant-01": {
+      "prior_month_input_tokens": 0,
+      "scale_threshold_input_tokens": 4000000,
+      "tier": "scale",
+      "tz_offset_minutes": -300
+    },
+    "tenant-02": {
+      "prior_month_input_tokens": 0,
+      "scale_threshold_input_tokens": 4000000,
+      "tier": "scale",
+      "tz_offset_minutes": 180
+    },
+    "tenant-03": {
+      "prior_month_input_tokens": 0,
+      "scale_threshold_input_tokens": 4000000,
+      "tier": "scale",
+      "tz_offset_minutes": 90
+    },
+    "tenant-04": {
+      "prior_month_input_tokens": 0,
+      "scale_threshold_input_tokens": 4000000,
+      "tier": "scale",
+      "tz_offset_minutes": -120
+    },
+    "tenant-05": {
+      "tier": "standard",
+      "tz_offset_minutes": 0
+    },
+    "tenant-06": {
+      "tier": "standard",
+      "tz_offset_minutes": 60
+    },
+    "tenant-07": {
+      "tier": "standard",
+      "tz_offset_minutes": -60
+    },
+    "tenant-08": {
+      "tier": "standard",
+      "tz_offset_minutes": 120
+    },
+    "tenant-09": {
+      "tier": "standard",
+      "tz_offset_minutes": -180
+    },
+    "tenant-10": {
+      "tier": "standard",
+      "tz_offset_minutes": 210
+    },
+    "tenant-11": {
+      "tier": "standard",
+      "tz_offset_minutes": -90
+    },
+    "tenant-12": {
+      "tier": "standard",
+      "tz_offset_minutes": 150
+    },
+    "tenant-13": {
+      "tier": "standard",
+      "tz_offset_minutes": -210
+    },
+    "tenant-14": {
+      "tier": "standard",
+      "tz_offset_minutes": 330
+    }
+  }
+}
