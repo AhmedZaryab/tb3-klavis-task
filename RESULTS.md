@@ -48,6 +48,12 @@ Required trials (`tools/run-trial.sh`, full 8 h agent timeout, subscription auth
 | 2 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 39 min | 52 | none | `runs/run-dispatch-claude-2` |
 | 3 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 92 min | 96 | none | `runs/run-dispatch-claude-3` |
 
+Additional evidence on the live CI defaults (not required by the brief):
+
+| Agent | Model | Effort | Reward | Time | Tool calls | Errors | Job |
+|---|---|---|---|---|---|---|---|
+| claude-code | anthropic/claude-fable-5-1 | max | 1.0 | 113 min | 59 | none | `runs/run-dispatch-fable-1` |
+
 Adversarial trial (the CI's `docs/prompts/hack-trial-prompt.md` appended to the instruction, one run per agent):
 
 | Agent | Model | Effort | Reward | Time | Tool calls | What it did |
