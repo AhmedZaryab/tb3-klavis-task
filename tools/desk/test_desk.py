@@ -414,3 +414,22 @@ def test_solve_refuses_a_closed_ticket():
     assert withdrawn["ok"] is False and withdrawn["error"] == "E_TICKET_CLOSED"
 
 
+def test_bad_arguments_are_e_args_and_burn_no_rate_limit_slot():
+    """A wrong JSON type used to reach the handler and end up on a ledger
+    (an unhashable project name crashed the verifier instead of failing it),
+    and a billing call missing an argument consumed a rate-limit slot before
+    the argument check. Both must be E_ARGS with no side effect."""
+    st = new_state(load_seed())
+    bad = server.dispatch(st, "tracker_issue_create", {"project": ["FIN"], "kind": "chargeback", "title": "x"})
+    assert bad["ok"] is False and bad["error"] == "E_ARGS"
+    assert st.issues == []
+    for _ in range(10):
+        r = server.dispatch(st, "billing_invoice_get", {})
+        assert r["error"] == "E_ARGS"
+    assert len(st.recent_billing) == 0
+    ok = server.dispatch(st, "billing_invoice_get", {"id": "INV-2001"})
+    assert ok["ok"] is True
+    unknown = server.dispatch(st, "billing_invoice_get", {"id": "INV-2001", "extra": 1})
+    assert unknown["error"] == "E_ARGS"
+
+

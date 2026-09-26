@@ -509,6 +509,7 @@ def dispatch(st: State, name: str, args: dict) -> dict:
             raise GatewayError("E_NO_TOOL", f"no tool {name}")
         if st.calls["total"] > st.budget:
             st.calls["budget_exhausted"] = True
+        check_args(name, args)
             raise GatewayError("E_BUDGET", f"run budget of {st.budget} tool calls is exhausted")
         if name.startswith(st.rate["prefix"]):
             now = time.monotonic()
@@ -518,9 +519,6 @@ def dispatch(st: State, name: str, args: dict) -> dict:
                 wait = math.ceil(st.rate["window_s"] - (now - st.recent_billing[0]))
                 raise GatewayError("E_RATE_LIMIT", f"billing tools allow {st.rate['calls']} calls per {st.rate['window_s']} s", retry_after_s=max(1, wait))
             st.recent_billing.append(now)
-        missing = [k for k in schema_required(name) if k not in args]
-        if missing:
-            raise GatewayError("E_ARGS", f"missing required arguments: {', '.join(missing)}")
         result = HANDLERS[name](st, args)
         return {"ok": True, "result": result, "calls_used": st.calls["total"], "budget": st.budget}
     except GatewayError as err:
@@ -530,11 +528,24 @@ def dispatch(st: State, name: str, args: dict) -> dict:
         st.persist()
 
 
-_REQUIRED = {name: schema.get("required", []) for name, _, schema, _ in TOOLS}
+_SCHEMAS = {name: schema for name, _, schema, _ in TOOLS}
+_JSON_TYPES = {"string": str, "integer": int, "object": dict}
 
 
-def schema_required(name: str) -> list:
-    return _REQUIRED.get(name, [])
+def check_args(name: str, args: dict) -> None:
+    """Reject missing required arguments and wrong JSON types with E_ARGS
+    before any rule (rate limit, ledger) is touched."""
+    schema = _SCHEMAS[name]
+    missing = [k for k in schema.get("required", []) if k not in args]
+    if missing:
+        raise GatewayError("E_ARGS", f"missing required arguments: {', '.join(missing)}")
+    for key, value in args.items():
+        spec = schema["properties"].get(key)
+        if spec is None:
+            raise GatewayError("E_ARGS", f"unknown argument {key}")
+        expected = _JSON_TYPES[spec["type"]]
+        if not isinstance(value, expected) or (expected is int and isinstance(value, bool)):
+            raise GatewayError("E_ARGS", f"argument {key} must be a {spec['type']}")
 
 
 def build_app(state: State):
