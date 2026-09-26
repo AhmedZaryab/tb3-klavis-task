@@ -1,0 +1,5841 @@
+[
+  {
+    "server": "confluence",
+    "name": "create_attachment",
+    "description": "Create an attachment within the connected confluence account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "description": "The file path."
+        },
+        "filename": {
+          "type": "string",
+          "description": "The filename."
+        }
+      },
+      "required": [
+        "file_path",
+        "filename"
+      ]
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "create_comment",
+    "description": "Create a comment for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The body."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "body",
+        "parent_id"
+      ]
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "create_page",
+    "description": "Add a page for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The content."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        },
+        "space_id": {
+          "type": "string",
+          "description": "The space id."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        }
+      },
+      "required": [
+        "content",
+        "parent_id"
+      ]
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "get_page",
+    "description": "Retrieve a page by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "get_space",
+    "description": "Look up a space from confluence.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "list_attachments",
+    "description": "List attachments visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "list_comments",
+    "description": "List comments matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "body": {
+          "type": "string",
+          "description": "The body."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "confluence",
+    "name": "list_spaces",
+    "description": "Enumerate spaces visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "create_dashboard",
+    "description": "Add a dashboard for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of widgets."
+        }
+      },
+      "required": [
+        "title",
+        "widgets"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "create_incident",
+    "description": "Create an incident within the connected datadog account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "urgency": {
+          "type": "string",
+          "description": "The urgency."
+        },
+        "service_id": {
+          "type": "string",
+          "description": "The service id."
+        }
+      },
+      "required": [
+        "urgency",
+        "service_id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "create_monitor",
+    "description": "Create a monitor in datadog.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "thresholds": {
+          "type": "object",
+          "description": "Structured thresholds payload."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of tags."
+        }
+      },
+      "required": [
+        "thresholds",
+        "tags"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "get_dashboard",
+    "description": "Retrieve a dashboard from datadog.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "get_incident",
+    "description": "Look up an incident including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "get_log",
+    "description": "Fetch a log including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "get_metric",
+    "description": "Get a metric including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "get_monitor",
+    "description": "Retrieve a monitor from datadog.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "list_logs",
+    "description": "Return a page of logs visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "query": {
+          "type": "string",
+          "description": "The query."
+        },
+        "from_time": {
+          "type": "string",
+          "description": "The from time."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "datadog",
+    "name": "list_metrics",
+    "description": "List metrics ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "discord",
+    "name": "create_channel",
+    "description": "Create a channel in discord.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "private": {
+          "type": "boolean",
+          "description": "The private."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "topic": {
+          "type": "string",
+          "description": "The topic."
+        }
+      },
+      "required": [
+        "private",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "create_role",
+    "description": "Add a role in discord. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "description": "The color."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "color",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "delete_message",
+    "description": "Delete a message permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "get_channel",
+    "description": "Fetch a channel from discord.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "get_guild",
+    "description": "Get a guild including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "get_member",
+    "description": "Get a member by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "get_message",
+    "description": "Fetch a message from discord.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "list_guilds",
+    "description": "List guilds ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "discord",
+    "name": "list_members",
+    "description": "Enumerate members matching optional filters, paginated. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The nickname."
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of roles."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "discord",
+    "name": "list_messages",
+    "description": "Enumerate messages matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "text": {
+          "type": "string",
+          "description": "The text."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "discord",
+    "name": "list_roles",
+    "description": "List roles ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "discord",
+    "name": "search_messages",
+    "description": "Search message history in a guild by author, mentions, or content; unlike Slack this requires a guild_id and is eventually consistent.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "guild_id": {
+          "type": "string",
+          "description": "Guild to search within."
+        },
+        "content": {
+          "type": "string",
+          "description": "Text to search for in message content."
+        },
+        "author_id": {
+          "type": "string",
+          "description": "Restrict results to messages from this user."
+        }
+      },
+      "required": [
+        "guild_id",
+        "content"
+      ]
+    }
+  },
+  {
+    "server": "discord",
+    "name": "send_message",
+    "description": "Send a message to a text channel. Accepts plain content and up to 10 embed objects, but does not support threaded replies.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "type": "string",
+          "description": "Snowflake id of the target channel."
+        },
+        "content": {
+          "type": "string",
+          "description": "Plain text message content."
+        },
+        "embeds": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "Rich embed objects, max 10."
+        }
+      },
+      "required": [
+        "channel_id",
+        "content"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "create_file",
+    "description": "Create a file for the workspace. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The content."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "content",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "create_folder",
+    "description": "Create a folder in dropbox.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "parent_id",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "create_shared_link",
+    "description": "Add a shared link for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "description": "The visibility."
+        },
+        "path": {
+          "type": "string",
+          "description": "The path."
+        }
+      },
+      "required": [
+        "visibility",
+        "path"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "delete_file",
+    "description": "Delete a file identified by id. Related records may be cascade-deleted depending on account settings.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "get_file",
+    "description": "Look up a file by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "get_folder",
+    "description": "Get a folder from dropbox.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "list_files",
+    "description": "Return a page of files matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "dropbox",
+    "name": "list_shared_links",
+    "description": "Enumerate shared links matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "path": {
+          "type": "string",
+          "description": "The path."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "github",
+    "name": "create_branch",
+    "description": "Add a branch for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "description": "The ref."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "ref",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "create_issue",
+    "description": "Open a new issue on a repository. Supports assigning labels, one or more assignees, and a milestone at creation time.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "Repository in owner/name form."
+        },
+        "title": {
+          "type": "string",
+          "description": "Issue title."
+        },
+        "body": {
+          "type": "string",
+          "description": "Issue body in Markdown."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Labels to apply."
+        },
+        "assignees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "GitHub usernames to assign."
+        }
+      },
+      "required": [
+        "repo",
+        "title"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "create_label",
+    "description": "Add a label in github. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "description": "The color."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "color",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "create_pull_request",
+    "description": "Create a pull request for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "draft": {
+          "type": "boolean",
+          "description": "The draft."
+        },
+        "head_branch": {
+          "type": "string",
+          "description": "The head branch."
+        },
+        "base_branch": {
+          "type": "string",
+          "description": "The base branch."
+        }
+      },
+      "required": [
+        "draft",
+        "head_branch"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "create_release",
+    "description": "Create a release for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "tag_name": {
+          "type": "string",
+          "description": "The tag name."
+        },
+        "draft": {
+          "type": "boolean",
+          "description": "The draft."
+        }
+      },
+      "required": [
+        "name",
+        "tag_name"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "delete_issue",
+    "description": "Remove an issue identified by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "get_issue",
+    "description": "Look up an issue including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "get_pull_request",
+    "description": "Retrieve a pull request from github.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "get_release",
+    "description": "Retrieve a release by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "get_repository",
+    "description": "Retrieve a repository by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "list_branches",
+    "description": "Enumerate branches ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "github",
+    "name": "list_issues",
+    "description": "Enumerate issues visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status."
+        },
+        "assignee": {
+          "type": "string",
+          "description": "The assignee."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "github",
+    "name": "list_labels",
+    "description": "List labels matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "github",
+    "name": "list_repositories",
+    "description": "List repositories matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "github",
+    "name": "search_issues",
+    "description": "Search issues and pull requests across repositories using GitHub's issue search qualifier syntax (e.g. is:open label:bug).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "GitHub search syntax, e.g. 'is:open label:bug repo:org/name'."
+        },
+        "sort": {
+          "type": "string",
+          "description": "Field to sort by, e.g. created or updated."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "server": "github",
+    "name": "update_issue",
+    "description": "Modify an issue identified by id, applying only the fields provided.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "assignee": {
+          "type": "string",
+          "description": "The assignee."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The priority."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "create_branch",
+    "description": "Add a branch for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "ref": {
+          "type": "string",
+          "description": "The ref."
+        }
+      },
+      "required": [
+        "name",
+        "ref"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "create_issue",
+    "description": "Create an issue within a project. Accepts an optional milestone and weight, and can link the issue to an existing epic.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Numeric or path-qualified project id."
+        },
+        "title": {
+          "type": "string",
+          "description": "Issue title."
+        },
+        "description": {
+          "type": "string",
+          "description": "Issue description in GitLab Flavored Markdown."
+        },
+        "milestone_id": {
+          "type": "string",
+          "description": "Milestone to attach the issue to."
+        },
+        "weight": {
+          "type": "integer",
+          "description": "Relative effort weight."
+        }
+      },
+      "required": [
+        "project_id",
+        "title"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "create_label",
+    "description": "Create a label for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "description",
+        "color"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "create_merge_request",
+    "description": "Create a merge request for the workspace. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "source_branch": {
+          "type": "string",
+          "description": "The source branch."
+        },
+        "target_branch": {
+          "type": "string",
+          "description": "The target branch."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "draft": {
+          "type": "boolean",
+          "description": "The draft."
+        }
+      },
+      "required": [
+        "source_branch",
+        "target_branch"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "delete_issue",
+    "description": "Archive an issue permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "get_issue",
+    "description": "Get an issue from gitlab.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "get_merge_request",
+    "description": "Retrieve a merge request from gitlab.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "get_pipeline",
+    "description": "Look up a pipeline by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "get_project",
+    "description": "Get a project by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "list_branches",
+    "description": "List branches matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "list_issues",
+    "description": "Enumerate issues visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The priority."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "list_labels",
+    "description": "Return a page of labels visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "list_pipelines",
+    "description": "List pipelines ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "list_projects",
+    "description": "Return a page of projects matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "The visibility."
+        },
+        "lead": {
+          "type": "string",
+          "description": "The lead."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "search_issues",
+    "description": "Search issues within a project or group by title and description text, with optional label and state filters.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "scope_id": {
+          "type": "string",
+          "description": "Project or group id to search within."
+        },
+        "search": {
+          "type": "string",
+          "description": "Free-text search term."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Restrict to issues with all of these labels."
+        },
+        "state": {
+          "type": "string",
+          "description": "opened, closed, or all."
+        }
+      },
+      "required": [
+        "scope_id",
+        "search"
+      ]
+    }
+  },
+  {
+    "server": "gitlab",
+    "name": "update_issue",
+    "description": "Edit an issue in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "assignee": {
+          "type": "string",
+          "description": "The assignee."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "create_draft",
+    "description": "Create a draft within the connected gmail account. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The body."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject."
+        }
+      },
+      "required": [
+        "body",
+        "subject"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "create_label",
+    "description": "Create a label in gmail. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        }
+      },
+      "required": [
+        "name",
+        "color"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "delete_message",
+    "description": "Remove a message permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "get_draft",
+    "description": "Fetch a draft including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "get_message",
+    "description": "Get a message from gmail.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "get_thread",
+    "description": "Look up a thread including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "list_labels",
+    "description": "Enumerate labels matching optional filters, paginated. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "list_messages",
+    "description": "Enumerate messages ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "recipient": {
+          "type": "string",
+          "description": "The recipient."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "list_threads",
+    "description": "List threads ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "gmail",
+    "name": "send_message",
+    "description": "Send an email from the authenticated account. The message is composed as MIME and delivered immediately; it is not saved as a draft first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "Recipient email address."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Email subject line."
+        },
+        "body": {
+          "type": "string",
+          "description": "Plain text or HTML email body."
+        },
+        "cc": {
+          "type": "string",
+          "description": "Comma-separated CC recipients."
+        }
+      },
+      "required": [
+        "to",
+        "subject",
+        "body"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "create_event",
+    "description": "Create an event within the connected google-calendar account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "The location."
+        },
+        "attendees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of attendees."
+        }
+      },
+      "required": [
+        "location",
+        "attendees"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "delete_event",
+    "description": "Delete an event permanently; this cannot be undone. Related records may be cascade-deleted depending on account settings.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "get_calendar",
+    "description": "Get a calendar by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "get_event",
+    "description": "Get an event from google-calendar.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "list_calendars",
+    "description": "List calendars visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "list_events",
+    "description": "List events matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "update_attendee",
+    "description": "Modify an attendee in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "response_status": {
+          "type": "string",
+          "description": "The response status."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-calendar",
+    "name": "update_event",
+    "description": "Edit an event identified by id, applying only the fields provided.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "attendees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of attendees."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location."
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The start time."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "create_file",
+    "description": "Create a file in google-drive.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The content."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "content",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "create_folder",
+    "description": "Create a folder in google-drive.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "name",
+        "parent_id"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "create_permission",
+    "description": "Create a permission within the connected google-drive account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "type",
+        "role"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "delete_file",
+    "description": "Remove a file permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "get_file",
+    "description": "Retrieve a file including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "get_folder",
+    "description": "Fetch a folder including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "list_files",
+    "description": "Enumerate files visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "list_permissions",
+    "description": "Enumerate permissions visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "google-drive",
+    "name": "update_file",
+    "description": "Update a file identified by id, applying only the fields provided.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content."
+        },
+        "mime_type": {
+          "type": "string",
+          "description": "The mime type."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "create_company",
+    "description": "Add a company within the connected hubspot account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "domain": {
+          "type": "string",
+          "description": "The domain."
+        }
+      },
+      "required": [
+        "name",
+        "domain"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "create_contact",
+    "description": "Add a contact in hubspot.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email."
+        },
+        "company": {
+          "type": "string",
+          "description": "The company."
+        }
+      },
+      "required": [
+        "email",
+        "company"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "create_deal",
+    "description": "Create a deal for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "pipeline_id": {
+          "type": "string",
+          "description": "The pipeline id."
+        },
+        "amount": {
+          "type": "number",
+          "description": "The amount."
+        },
+        "stage": {
+          "type": "string",
+          "description": "The stage."
+        }
+      },
+      "required": [
+        "pipeline_id",
+        "amount"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "create_note",
+    "description": "Add a note in hubspot. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The body."
+        },
+        "associated_object_id": {
+          "type": "string",
+          "description": "The associated object id."
+        }
+      },
+      "required": [
+        "body",
+        "associated_object_id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "create_ticket",
+    "description": "Open a ticket in hubspot.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of tags."
+        }
+      },
+      "required": [
+        "description",
+        "tags"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "delete_contact",
+    "description": "Delete a contact permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "get_company",
+    "description": "Get a company including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "get_contact",
+    "description": "Retrieve a contact by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "get_deal",
+    "description": "Look up a deal including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "get_ticket",
+    "description": "Fetch a ticket including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "list_contacts",
+    "description": "Enumerate contacts visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "list_notes",
+    "description": "List notes visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "body": {
+          "type": "string",
+          "description": "The body."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "list_tickets",
+    "description": "Enumerate tickets matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "search_contacts",
+    "description": "Search contacts by property filters (email, name, lifecycle stage) using HubSpot's CRM search API.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Free-text search across default contact properties."
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "Structured property filter groups."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "update_contact",
+    "description": "Edit a contact identified by id, applying only the fields provided.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "The first name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "hubspot",
+    "name": "update_ticket",
+    "description": "Modify a ticket in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "create_issue",
+    "description": "Create an issue in a project using a specific issue type (e.g. Bug, Story, Task) and any custom fields the project schema requires.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "project_key": {
+          "type": "string",
+          "description": "Project key, e.g. ENG."
+        },
+        "issue_type": {
+          "type": "string",
+          "description": "Issue type name, e.g. Bug or Story."
+        },
+        "summary": {
+          "type": "string",
+          "description": "One-line issue summary."
+        },
+        "description": {
+          "type": "string",
+          "description": "Full issue description."
+        },
+        "fields": {
+          "type": "object",
+          "description": "Additional custom field values keyed by field id."
+        }
+      },
+      "required": [
+        "project_key",
+        "issue_type",
+        "summary"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "create_sprint",
+    "description": "Create a sprint in jira. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "The start date."
+        },
+        "goal": {
+          "type": "string",
+          "description": "The goal."
+        }
+      },
+      "required": [
+        "name",
+        "start_date"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "create_worklog",
+    "description": "Create a worklog in jira.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "time_spent_seconds": {
+          "type": "integer",
+          "description": "The time spent seconds."
+        },
+        "started": {
+          "type": "string",
+          "description": "The started."
+        },
+        "comment": {
+          "type": "string",
+          "description": "The comment."
+        }
+      },
+      "required": [
+        "time_spent_seconds",
+        "started"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "delete_issue",
+    "description": "Archive an issue permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "get_board",
+    "description": "Look up a board including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "get_issue",
+    "description": "Look up an issue including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "get_project",
+    "description": "Fetch a project by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "get_sprint",
+    "description": "Fetch a sprint from jira.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "list_boards",
+    "description": "List boards visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "jira",
+    "name": "list_issues",
+    "description": "Return a page of issues matching optional filters, paginated. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "jira",
+    "name": "list_projects",
+    "description": "List projects ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "jira",
+    "name": "list_worklogs",
+    "description": "Return a page of worklogs matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "jira",
+    "name": "search_issues",
+    "description": "Search issues using JQL (Jira Query Language) and return the matching issues with the requested fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "jql": {
+          "type": "string",
+          "description": "JQL query string."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields to include per issue."
+        },
+        "max_results": {
+          "type": "integer",
+          "description": "Maximum number of issues to return."
+        }
+      },
+      "required": [
+        "jql"
+      ]
+    }
+  },
+  {
+    "server": "jira",
+    "name": "update_issue",
+    "description": "Edit an issue identified by id, applying only the fields provided.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of labels."
+        },
+        "assignee": {
+          "type": "string",
+          "description": "The assignee."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "create_comment",
+    "description": "Create a comment within the connected linear account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The body."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "body",
+        "parent_id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "create_issue",
+    "description": "Create a new issue on a team, optionally placing it in the active cycle and setting a priority from 0 (none) to 4 (urgent).",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "team_id": {
+          "type": "string",
+          "description": "Team the issue belongs to."
+        },
+        "title": {
+          "type": "string",
+          "description": "Issue title."
+        },
+        "description": {
+          "type": "string",
+          "description": "Issue description in Markdown."
+        },
+        "priority": {
+          "type": "integer",
+          "description": "Priority from 0 (none) to 4 (urgent)."
+        },
+        "cycle_id": {
+          "type": "string",
+          "description": "Cycle to schedule the issue into."
+        }
+      },
+      "required": [
+        "team_id",
+        "title"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "create_project",
+    "description": "Add a project for the workspace. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "The visibility."
+        },
+        "lead": {
+          "type": "string",
+          "description": "The lead."
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "delete_issue",
+    "description": "Archive an issue permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "get_cycle",
+    "description": "Retrieve a cycle by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "get_issue",
+    "description": "Retrieve an issue by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "get_project",
+    "description": "Fetch a project by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "get_team",
+    "description": "Look up a team from linear.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "list_comments",
+    "description": "Enumerate comments ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "linear",
+    "name": "list_cycles",
+    "description": "Enumerate cycles ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "linear",
+    "name": "list_issues",
+    "description": "Return a page of issues matching optional filters, paginated. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "linear",
+    "name": "list_teams",
+    "description": "Return a page of teams ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "linear",
+    "name": "search_issues",
+    "description": "Full-text search over issue titles and descriptions across all teams the caller can access, ranked by relevance.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string",
+          "description": "Search term."
+        },
+        "team_id": {
+          "type": "string",
+          "description": "Restrict results to a single team."
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results."
+        }
+      },
+      "required": [
+        "term"
+      ]
+    }
+  },
+  {
+    "server": "linear",
+    "name": "update_issue",
+    "description": "Edit an issue in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "milestone": {
+          "type": "string",
+          "description": "The milestone."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "create_comment",
+    "description": "Create a comment for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The body."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "body",
+        "parent_id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "create_database",
+    "description": "Create a database within the connected notion account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "properties": {
+          "type": "object",
+          "description": "Structured properties payload."
+        }
+      },
+      "required": [
+        "parent_id",
+        "title"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "create_page",
+    "description": "Add a page in notion. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "space_id": {
+          "type": "string",
+          "description": "The space id."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": [
+        "title",
+        "space_id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "get_block",
+    "description": "Fetch a block by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "get_database",
+    "description": "Look up a database including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "get_page",
+    "description": "Retrieve a page including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "notion",
+    "name": "list_blocks",
+    "description": "Enumerate blocks visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "notion",
+    "name": "list_comments",
+    "description": "Enumerate comments visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "create_incident",
+    "description": "Open an incident within the connected pagerduty account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status."
+        },
+        "urgency": {
+          "type": "string",
+          "description": "The urgency."
+        },
+        "service_id": {
+          "type": "string",
+          "description": "The service id."
+        }
+      },
+      "required": [
+        "status",
+        "urgency"
+      ]
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "get_escalation_policy",
+    "description": "Get an escalation policy by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "get_incident",
+    "description": "Fetch an incident by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "get_oncall",
+    "description": "Get an oncall by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "get_service",
+    "description": "Get a service from pagerduty.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "list_escalation_policies",
+    "description": "List escalation policies ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "list_oncalls",
+    "description": "List oncalls visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "pagerduty",
+    "name": "list_services",
+    "description": "Return a page of services matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "create_index",
+    "description": "Add an index within the connected postgres account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "table": {
+          "type": "string",
+          "description": "The table."
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of columns."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "table",
+        "columns"
+      ]
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "create_query",
+    "description": "Create a query in postgres.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "The sql."
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of parameters."
+        }
+      },
+      "required": [
+        "sql",
+        "parameters"
+      ]
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "get_schema",
+    "description": "Get a schema from postgres.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "get_table",
+    "description": "Get a table by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "list_indexes",
+    "description": "Return a page of indexes visible to the authenticated user.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "list_schemas",
+    "description": "Enumerate schemas matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "postgres",
+    "name": "list_tables",
+    "description": "List tables ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "schema": {
+          "type": "string",
+          "description": "The schema."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "create_account",
+    "description": "Create an account in salesforce.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "website": {
+          "type": "string",
+          "description": "The website."
+        },
+        "industry": {
+          "type": "string",
+          "description": "The industry."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "website",
+        "industry"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "create_case",
+    "description": "Add a case for the workspace. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "The subject."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status."
+        }
+      },
+      "required": [
+        "subject",
+        "status"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "create_contact",
+    "description": "Create a contact in salesforce. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "The first name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The last name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "first_name",
+        "last_name"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "create_lead",
+    "description": "Add a lead within the connected salesforce account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "status",
+        "email"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "create_opportunity",
+    "description": "Add an opportunity within the connected salesforce account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "close_date": {
+          "type": "string",
+          "description": "The close date."
+        },
+        "amount": {
+          "type": "number",
+          "description": "The amount."
+        },
+        "stage": {
+          "type": "string",
+          "description": "The stage."
+        }
+      },
+      "required": [
+        "close_date",
+        "amount"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "get_account",
+    "description": "Fetch an account including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "get_case",
+    "description": "Retrieve a case including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "get_contact",
+    "description": "Get a contact including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "get_lead",
+    "description": "Get a lead from salesforce.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "get_opportunity",
+    "description": "Look up an opportunity by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "list_contacts",
+    "description": "Return a page of contacts ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        },
+        "company": {
+          "type": "string",
+          "description": "The company."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "search_contacts",
+    "description": "Run a SOSL search scoped to the Contact object and return matching records with the given fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "search_term": {
+          "type": "string",
+          "description": "Term to search for across searchable contact fields."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields to return per contact."
+        }
+      },
+      "required": [
+        "search_term"
+      ]
+    }
+  },
+  {
+    "server": "salesforce",
+    "name": "update_contact",
+    "description": "Edit a contact in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "The first name."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "create_alert",
+    "description": "Add an alert for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of conditions."
+        },
+        "project_id": {
+          "type": "string",
+          "description": "The project id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "conditions",
+        "project_id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "get_alert",
+    "description": "Look up an alert by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "get_event",
+    "description": "Fetch an event including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "get_issue",
+    "description": "Retrieve an issue including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "get_project",
+    "description": "Look up a project by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "list_events",
+    "description": "List events matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location."
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The start time."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "list_issues",
+    "description": "Enumerate issues ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "list_projects",
+    "description": "Enumerate projects visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "The visibility."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "sentry",
+    "name": "update_issue",
+    "description": "Update an issue in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "assignee": {
+          "type": "string",
+          "description": "The assignee."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "create_collection",
+    "description": "Create a collection within the connected shopify account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of rules."
+        }
+      },
+      "required": [
+        "title",
+        "rules"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "create_customer",
+    "description": "Add a customer within the connected shopify account. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Structured metadata payload."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The phone."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        }
+      },
+      "required": [
+        "name",
+        "metadata"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "create_product",
+    "description": "Add a product for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "The price."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        }
+      },
+      "required": [
+        "price",
+        "description"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "get_collection",
+    "description": "Retrieve a collection including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "get_customer",
+    "description": "Look up a customer by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "get_inventory_item",
+    "description": "Fetch an inventory item including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "get_order",
+    "description": "Retrieve an order from shopify.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "get_product",
+    "description": "Get a product including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "list_inventory_items",
+    "description": "Return a page of inventory items matching optional filters, paginated. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "shopify",
+    "name": "list_orders",
+    "description": "List orders ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "fulfillment_status": {
+          "type": "string",
+          "description": "The fulfillment status."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "slack",
+    "name": "create_channel",
+    "description": "Create a channel within the connected slack account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "private": {
+          "type": "boolean",
+          "description": "The private."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "topic": {
+          "type": "string",
+          "description": "The topic."
+        }
+      },
+      "required": [
+        "private",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "create_file",
+    "description": "Create a file in slack.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "mime_type": {
+          "type": "string",
+          "description": "The mime type."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content."
+        }
+      },
+      "required": [
+        "mime_type",
+        "content"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "create_reminder",
+    "description": "Add a reminder in slack.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The text."
+        },
+        "time": {
+          "type": "string",
+          "description": "The time."
+        }
+      },
+      "required": [
+        "text",
+        "time"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "delete_file",
+    "description": "Archive a file permanently; this cannot be undone.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "delete_message",
+    "description": "Remove a message identified by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "get_channel",
+    "description": "Retrieve a channel including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "get_message",
+    "description": "Retrieve a message from slack.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "get_user",
+    "description": "Look up an user from slack.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "list_files",
+    "description": "List files ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "slack",
+    "name": "list_messages",
+    "description": "List messages matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "slack",
+    "name": "list_reminders",
+    "description": "Enumerate reminders ordered by most recent first.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "slack",
+    "name": "list_users",
+    "description": "List users matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "slack",
+    "name": "search_messages",
+    "description": "Search messages across channels the caller has access to, using Slack's message search modifiers like from: and in:.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search query, supports from:, in:, before:, after: modifiers."
+        },
+        "count": {
+          "type": "integer",
+          "description": "Maximum number of results."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "send_message",
+    "description": "Post a message to a channel or direct message. Supports Slack mrkdwn formatting and optional threading via thread_ts.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string",
+          "description": "Channel id or name to post to."
+        },
+        "text": {
+          "type": "string",
+          "description": "Message text in Slack mrkdwn."
+        },
+        "thread_ts": {
+          "type": "string",
+          "description": "Timestamp of a parent message to reply in-thread."
+        }
+      },
+      "required": [
+        "channel",
+        "text"
+      ]
+    }
+  },
+  {
+    "server": "slack",
+    "name": "update_message",
+    "description": "Edit a message in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "text": {
+          "type": "string",
+          "description": "The text."
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of attachments."
+        },
+        "recipient": {
+          "type": "string",
+          "description": "The recipient."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "create_query",
+    "description": "Add a query in snowflake. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of parameters."
+        },
+        "sql": {
+          "type": "string",
+          "description": "The sql."
+        }
+      },
+      "required": [
+        "parameters",
+        "sql"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "create_stage",
+    "description": "Add a stage for the workspace.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "url": {
+          "type": "string",
+          "description": "The url."
+        }
+      },
+      "required": [
+        "name",
+        "url"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "get_database",
+    "description": "Get a database including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "get_table",
+    "description": "Retrieve a table including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "get_warehouse",
+    "description": "Get a warehouse from snowflake.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "list_databases",
+    "description": "List databases matching optional filters, paginated.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "The parent id."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "list_stages",
+    "description": "List stages visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "url": {
+          "type": "string",
+          "description": "The url."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "list_tables",
+    "description": "List tables ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "schema": {
+          "type": "string",
+          "description": "The schema."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "snowflake",
+    "name": "list_warehouses",
+    "description": "Return a page of warehouses visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "size": {
+          "type": "string",
+          "description": "The size."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "create_charge",
+    "description": "Add a charge within the connected stripe account. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "The currency."
+        },
+        "customer_id": {
+          "type": "string",
+          "description": "The customer id."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        }
+      },
+      "required": [
+        "currency",
+        "customer_id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "create_customer",
+    "description": "Create a customer in stripe.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "The phone."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Structured metadata payload."
+        }
+      },
+      "required": [
+        "phone",
+        "name"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "create_invoice",
+    "description": "Create an invoice in stripe.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "description": "The customer id."
+        },
+        "line_items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of line items."
+        },
+        "due_date": {
+          "type": "string",
+          "description": "The due date."
+        }
+      },
+      "required": [
+        "customer_id",
+        "line_items"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "create_refund",
+    "description": "Create a refund in stripe. Returns the newly created record.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "charge_id": {
+          "type": "string",
+          "description": "The charge id."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason."
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The amount."
+        }
+      },
+      "required": [
+        "charge_id",
+        "reason"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "create_subscription",
+    "description": "Create a subscription within the connected stripe account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "description": "The customer id."
+        },
+        "plan_id": {
+          "type": "string",
+          "description": "The plan id."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The quantity."
+        }
+      },
+      "required": [
+        "customer_id",
+        "plan_id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "get_charge",
+    "description": "Get a charge from stripe.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "get_customer",
+    "description": "Look up a customer including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "get_invoice",
+    "description": "Retrieve an invoice from stripe.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "get_refund",
+    "description": "Look up a refund by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "stripe",
+    "name": "get_subscription",
+    "description": "Look up a subscription including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "create_ticket",
+    "description": "Add a ticket in zendesk. The caller must have write access to the parent resource.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "The subject."
+        },
+        "requester_email": {
+          "type": "string",
+          "description": "The requester email."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description."
+        }
+      },
+      "required": [
+        "subject",
+        "requester_email"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "create_user",
+    "description": "Add an user within the connected zendesk account.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The role."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name."
+        }
+      },
+      "required": [
+        "role",
+        "email"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "delete_ticket",
+    "description": "Delete a ticket permanently; this cannot be undone. Related records may be cascade-deleted depending on account settings.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Skip confirmation and delete immediately."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "get_macro",
+    "description": "Retrieve a macro from zendesk.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "get_organization",
+    "description": "Get an organization by its identifier.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "get_ticket",
+    "description": "Look up a ticket including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "get_user",
+    "description": "Get an user including its current fields.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional subset of fields to include in the response."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "list_macros",
+    "description": "Enumerate macros visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title."
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of actions."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "list_organizations",
+    "description": "Return a page of organizations visible to the authenticated user. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "list_tickets",
+    "description": "List tickets ordered by most recent first. Results are paginated; use the returned cursor to fetch the next page.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "description": "Maximum number of results to return."
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor from a previous call."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The priority."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject."
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "server": "zendesk",
+    "name": "update_ticket",
+    "description": "Modify a ticket in place; unspecified fields are left unchanged.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the resource."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The priority."
+        },
+        "requester_email": {
+          "type": "string",
+          "description": "The requester email."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  }
+]
