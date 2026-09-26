@@ -163,7 +163,7 @@ pins down, and that is the kind of hidden rule the rubric forbids. Retired. This
 four candidates, each passing every CI gate, each solved by Claude Opus 5.5 at max reasoning in 4 to 71
 minutes. The required trial matrix runs on candidate 1.
 
-## Candidate 5: support-desk-gateway (in progress)
+## Candidate 5: support-desk-gateway (retired)
 
 Branch `ticket/tb3-original-task/candidate-support-desk-task`, forked from the decision record.
 
@@ -211,6 +211,24 @@ Review gate (rubric, exploitability, fairness), findings and fixes, each fix wit
 Gateway test suite (`tools/desk/test_desk.py`): 17 passed, including the verifier's refund arithmetic
 against the oracle's on every seed invoice and both seed copies against the generator's output.
 
+Probe (`tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-desk-v1`, `reasoning_effort=max`):
+
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Notes |
+|---|---|---|---|---|---|---|
+| probe-desk-v1 | 1.0 (59/59) | 9.4 min | 149 of 240 | 0 | 0 | 149 native MCP calls, 47 shell calls; 10.6 M input tokens, 48.5 K output |
+
+What the transcript shows. The model read the runbook, listed the queue, and worked the escalations in
+order with the same eight-call pattern the reference uses: ticket, account by email, account details,
+invoice, refunds list, side effect, ticket close, resolve. It never called a deprecated, sandbox, legacy
+or raw tool, never hit the rate limit, never reused a key, and re-read the queue after resolving so the
+follow-ups were picked up. Every refund amount was exact, including the annual prorations and the
+follow-up that asks again for an invoice already refunded. The 266-tool catalog cost it nothing: the
+`claude-code` harness loads MCP tools lazily and searches them by name, so the distractors were never in its context.
+
+The production failures this candidate was built to reproduce, look-alike tool picks, thirty calls where
+eight are needed, retry storms, did not appear. With a complete runbook and honest tool descriptions,
+Opus 5.5 at maximum reasoning behaves like the reference solution. Retired after the probe, as planned.
+
 ## Analysis
 
 ### What the six standard trials show
@@ -240,10 +258,16 @@ minutes, builds several independent checkers of its own, and stops only when the
   ledger. With every billing rule stated, each defect is a clean single-rule deviation and the grouping is
   mechanical.
 
+- Candidate 5 put the leaderboard's hardest shape (irreversible state, waves, interacting rules,
+  lifecycle grading) behind a 266-tool MCP gateway. The model used the gateway natively, picked the
+  right tool 149 times out of 149, and matched the reference's call pattern. The tool bloat that breaks
+  agents in production did not reach it: its harness loads tools lazily, and the runbook named the path.
+
 The pattern across the published attempts we surveyed holds here: what still beats these models is
 knowledge that cannot be written down without becoming a hidden rule (real document layouts, real legacy
-runtime quirks), or physical and numerical problems in specialist domains. In the agent-gateway domain,
-where the author's expertise lies, every rule can be stated, and a stated rule is a solved rule.
+runtime quirks, event feeds revealed at cutoffs), or physical and numerical problems in specialist
+domains. In the agent-gateway domain, where the author's expertise lies, every rule can be stated, and a
+stated rule is a solved rule, even when 266 tools stand between the agent and the ledger.
 
 ### Where the models actually fail: the official per-task data
 
@@ -306,9 +330,14 @@ machine is the difficulty, so writing a client script does not remove it.
 Everything is stated in the runbook. Nothing is hidden except the expected end state, which the verifier
 computes from the same seed. The kill test is unchanged: a two-hour Opus 5.5 probe before the matrix.
 
+Outcome (recorded in the Candidate 5 section above): the probe passed in 9.4 minutes with no wrong tool
+calls and no errors. The leaderboard shape is necessary but not sufficient: the official zero-score tasks
+also carry information the agent cannot read up front (event feeds at cutoffs, scanned images that
+override data), which a stated runbook by definition does not.
+
 ### What this repository shows instead
 
-Four complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
+Five complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
 score zero; a kill-test discipline that measured each design against the target model within hours of
 building it; and a record, in the git history and in this file, of what was tried, what it cost, and why
 each line was closed.

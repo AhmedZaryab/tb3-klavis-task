@@ -14,4 +14,4 @@ One original [Terminal-Bench 3](https://github.com/harbor-framework/terminal-ben
 | 2 | `mcp-tool-index` | reference index cannot reach a fair bar (47.7% vs 92%); shelved |
 | 3 | `gateway-tenant-onboarding` | all CI gates green; solved by Claude Opus 5.5 in 4 min, hardened version in 6 min; retired |
 | 4 | `gateway-metering-forensics` | all CI gates green; solved by Claude Opus 5.5 in 6 min; retired |
-| 5 | `support-desk-gateway` | decision recorded from the official per-task leaderboard data; in progress |
+| 5 | `support-desk-gateway` | built from the official per-task leaderboard data; all CI gates green; solved by Claude Opus 5.5 in 9 min through 266 native MCP tools; retired |
