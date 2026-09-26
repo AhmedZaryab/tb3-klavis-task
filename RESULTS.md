@@ -46,6 +46,7 @@ Required trials (`tools/run-trial.sh`, full 8 h agent timeout, subscription auth
 |---|---|---|---|---|---|---|---|---|
 | 1 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 99 min | 82 | none | `runs/run-dispatch-claude-1` |
 | 2 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 39 min | 52 | none | `runs/run-dispatch-claude-2` |
+| 3 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 92 min | 96 | none | `runs/run-dispatch-claude-3` |
 
 ## Candidate 2: mcp-tool-index (shelved)
 
