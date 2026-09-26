@@ -1,0 +1,46 @@
+{
+  "tenants": {
+    "acme-corp": {
+      "onboarded": false,
+      "bindings": [],
+      "grants": {},
+      "invocations": {}
+    },
+    "globex": {
+      "onboarded": false,
+      "bindings": [],
+      "grants": {},
+      "invocations": {}
+    },
+    "initech": {
+      "onboarded": false,
+      "bindings": [],
+      "grants": {},
+      "invocations": {}
+    },
+    "umbrella": {
+      "onboarded": true,
+      "bindings": ["crm-contacts-v2", "billing-invoices-v2", "chat-post-v3"],
+      "grants": {
+        "crm-contacts-v2": ["crm-contacts-v2:read", "crm-contacts-v2:invoke"],
+        "billing-invoices-v2": ["billing-invoices-v2:read", "billing-invoices-v2:invoke"],
+        "chat-post-v3": ["chat-post-v3:read", "chat-post-v3:invoke"]
+      },
+      "invocations": {
+        "crm-contacts-v2": 1,
+        "billing-invoices-v2": 1,
+        "chat-post-v3": 1
+      }
+    },
+    "hooli": {
+      "onboarded": false,
+      "bindings": ["crm-contacts-v2"],
+      "grants": {
+        "crm-contacts-v2": ["crm-contacts-v2:read", "crm-contacts-v2:invoke"]
+      },
+      "invocations": {}
+    }
+  },
+  "pending": [],
+  "sessions": {}
+}
