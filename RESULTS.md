@@ -163,6 +163,72 @@ pins down, and that is the kind of hidden rule the rubric forbids. Retired. This
 four candidates, each passing every CI gate, each solved by Claude Opus 5.5 at max reasoning in 4 to 71
 minutes. The required trial matrix runs on candidate 1.
 
+## Candidate 5: support-desk-gateway (retired)
+
+Branch `ticket/tb3-original-task/candidate-support-desk-task`, forked from the decision record.
+
+Design, from the per-task leaderboard data and the author's gateway experience (see the decision record in
+the analysis below): a support desk's refund escalations, worked through one company tool gateway that
+Harbor registers with the agent as an MCP server. The gateway serves 266 tools across 19 products; 33 are
+on the desk's path, the rest are honest distractors, including deprecated, sandbox and legacy look-alikes
+of the tools that matter. Twelve escalations wait in the queue and six follow-ups are released as their
+parents are resolved. The runbook states every rule: a run budget of 240 tool calls, a billing rate limit
+of 6 calls per 10 seconds with `retry_after_s`, refund idempotency keys, one refund per invoice, seven
+resolution rules applied in order, proration arithmetic for monthly and annual plans against the desk's
+clock, and one templated message per escalation through the customer's channel in the customer's locale.
+Refunds, messages and closed tickets cannot be undone. The verifier computes the expected outcome of all
+eighteen escalations from the seed and compares the gateway's ledgers exactly.
+
+Checks (`tasks/support-desk-gateway`):
+
+| Check | Command | Result |
+|---|---|---|
+| Static checks | `for c in scripts/checks/check-*.sh; do bash $c tasks/support-desk-gateway; done` | 25/25 pass (24/25 before the canary fix) |
+| Docker build | part of the oracle run below; gateway image installs `mcp==2.2.0`, `uvicorn==0.54.0` | builds |
+| Oracle | `harbor run -p tasks/support-desk-gateway --agent oracle --env docker --yes` | reward 1.0, 59/59; 171 calls, 5 rate-limit waits, 1 min 10 s total after the fixes |
+| Nop | `harbor run -p tasks/support-desk-gateway --agent nop --env docker --yes` | reward 0.0, 56/59 fail, collect hook delivered the state |
+| Cheat artifact | `cheat/solve.sh` run as the solution | reward 0.0, 47/59 fail; queue emptied with no side effects |
+
+The oracle reads every fact from the gateway through a standard-library MCP client; the seed is never
+consulted. The reference and the verifier implement the refund arithmetic independently.
+
+Review gate (rubric, exploitability, fairness), findings and fixes, each fix with its regression test:
+
+- The instruction said "exactly one message per customer", false for the three customers with a follow-up;
+  now "one per resolved escalation". The runbook's definition of done now names credit notes, sandbox
+  refunds, drafts and v1 posts, which the verifier already rejected.
+- `helpdesk_ticket_solve` had no closed guard, so a wrong close could be flipped and closed again; it now
+  refuses closed tickets like `helpdesk_ticket_close`.
+- Argument checks ran after the billing rate limit and never checked JSON types; a list as a project name
+  reached the ledger and made the verifier raise. Checks now run first and enforce types, `E_ARGS`.
+- The oracle's month arithmetic raised on start days 29 to 31 while the verifier clamped; both clamp now
+  and the runbook says so.
+- Catalog plurals produced `querys`; fixed, and the catalog passes the noun to the server.
+- No way to reach reward 1 without doing the work was found: the artifact comes from the gateway
+  container, resolve validates ids against the real ledgers, one refund per invoice with no delete, and
+  the verifier counts ledgers, not the queue.
+
+Gateway test suite (`tools/desk/test_desk.py`): 17 passed, including the verifier's refund arithmetic
+against the oracle's on every seed invoice and both seed copies against the generator's output.
+
+Probe (`tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-desk-v1`, `reasoning_effort=max`):
+
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Notes |
+|---|---|---|---|---|---|---|
+| probe-desk-v1 | 1.0 (59/59) | 9.4 min | 149 of 240 | 0 | 0 | 149 native MCP calls, 47 shell calls; 10.6 M input tokens, 48.5 K output |
+
+What the transcript shows. The model read the runbook, listed the queue, and worked the escalations in
+order with the same eight-call pattern the reference uses: ticket, account by email, account details,
+invoice, refunds list, side effect, ticket close, resolve. It never called a deprecated, sandbox, legacy
+or raw tool, never hit the rate limit, never reused a key, and re-read the queue after resolving so the
+follow-ups were picked up. Every refund amount was exact, including the annual prorations and the
+follow-up that asks again for an invoice already refunded. The 266-tool catalog cost it nothing: the
+`claude-code` harness loads MCP tools lazily and searches them by name, so the distractors were never in its context.
+
+The production failures this candidate was built to reproduce, look-alike tool picks, thirty calls where
+eight are needed, retry storms, did not appear. With a complete runbook and honest tool descriptions,
+Opus 5.5 at maximum reasoning behaves like the reference solution. Retired after the probe, as planned.
+
 ## Analysis
 
 ### What the six standard trials show
@@ -192,10 +258,16 @@ minutes, builds several independent checkers of its own, and stops only when the
   ledger. With every billing rule stated, each defect is a clean single-rule deviation and the grouping is
   mechanical.
 
+- Candidate 5 put the leaderboard's hardest shape (irreversible state, waves, interacting rules,
+  lifecycle grading) behind a 266-tool MCP gateway. The model used the gateway natively, picked the
+  right tool 149 times out of 149, and matched the reference's call pattern. The tool bloat that breaks
+  agents in production did not reach it: its harness loads tools lazily, and the runbook named the path.
+
 The pattern across the published attempts we surveyed holds here: what still beats these models is
 knowledge that cannot be written down without becoming a hidden rule (real document layouts, real legacy
-runtime quirks), or physical and numerical problems in specialist domains. In the agent-gateway domain,
-where the author's expertise lies, every rule can be stated, and a stated rule is a solved rule.
+runtime quirks, event feeds revealed at cutoffs), or physical and numerical problems in specialist
+domains. In the agent-gateway domain, where the author's expertise lies, every rule can be stated, and a
+stated rule is a solved rule, even when 266 tools stand between the agent and the ledger.
 
 ### Where the models actually fail: the official per-task data
 
@@ -250,7 +322,7 @@ support escalation queue where refunds and messages cannot be undone, follow-ups
 are resolved, a dozen stated rules interact (proration by plan, chargeback holds, invoice ownership,
 one refund per invoice, channel and locale), and the verifier grades the whole lifecycle from the
 gateway's own ledger. The tool surface is the production setting: every backend sits behind one MCP
-gateway that Harbor registers directly into Claude Code and Codex, about 250 tools across 22 services
+gateway that Harbor registers directly into `claude-code` and `codex`, about 250 tools across 22 services
 with deprecated, sandbox and legacy look-alikes described honestly, a rate limit with retry-after on
 billing, and a call budget that ends the run when it is spent. The tools are a multiplier; the state
 machine is the difficulty, so writing a client script does not remove it.
@@ -258,9 +330,14 @@ machine is the difficulty, so writing a client script does not remove it.
 Everything is stated in the runbook. Nothing is hidden except the expected end state, which the verifier
 computes from the same seed. The kill test is unchanged: a two-hour Opus 5.5 probe before the matrix.
 
+Outcome (recorded in the Candidate 5 section above): the probe passed in 9.4 minutes with no wrong tool
+calls and no errors. The leaderboard shape is necessary but not sufficient: the official zero-score tasks
+also carry information the agent cannot read up front (event feeds at cutoffs, scanned images that
+override data), which a stated runbook by definition does not.
+
 ### What this repository shows instead
 
-Four complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
+Five complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
 score zero; a kill-test discipline that measured each design against the target model within hours of
 building it; and a record, in the git history and in this file, of what was tried, what it cost, and why
 each line was closed.
