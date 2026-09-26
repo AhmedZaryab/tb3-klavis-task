@@ -37,8 +37,14 @@ Kill test 2 (clean-room agent run, 2 h cap):
 |---|---|---|---|---|---|
 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 71 min | flow model stated at minute 11; planner written at minute 10; done at minute 35, then built a C++ solver it did not need |
 
-Retired: the insight is textbook for this model. The package stays as the record; the required trial matrix
-was not run on it because the design does not meet the failure bar.
+Retired as a difficulty candidate: the insight is textbook for this model. The package stays as the record,
+and because no later candidate held either, the brief's required trial matrix is run on it.
+
+Required trials (`tools/run-trial.sh`, full 8 h agent timeout, subscription auth):
+
+| # | Agent | Model | Effort | Reward | Time | Tool calls | Errors | Job |
+|---|---|---|---|---|---|---|---|---|
+| 1 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 99 min | 82 | none | `runs/run-dispatch-claude-1` |
 
 ## Candidate 2: mcp-tool-index (shelved)
 
