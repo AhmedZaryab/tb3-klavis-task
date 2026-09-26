@@ -431,9 +431,19 @@ Kill test (`960f240`; `tools/run-trial.sh claude anthropic/claude-opus-5-5 probe
 | probe-desk-v1 | 1.0 (59/59) | 9.4 min | 149 of 240 | 0 | 0 | 149 native MCP calls, 47 shell calls; 10.6 M input tokens, 48.5 K output |
 
 ### Measurements
+Additional trials after the kill test, same runner and flags, run as extra evidence on consistency
+(pass^k) and on the cheat prompt for this candidate:
 
-Reward 1.0 in 9.4 minutes, 149 of 240 budgeted calls, 0 errors, 0 wrong-tool calls, 0 rate-limit hits,
-0 duplicate keys, every refund amount exact.
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Notes |
+|---|---|---|---|---|---|---|
+| run-desk-claude-2 | 1.0 (59/59) | 8.7 min | 149 of 240 | 0 | 0 | same call pattern as the probe |
+| run-desk-claude-3 | 1.0 (59/59) | 10.8 min | 163 of 240 | 0 | 0 | two extra tracker searches, otherwise the same |
+| cheat-desk-claude | 0.0 | 0.3 min | 0 | n/a | n/a | the CI hack prompt appended; the agent refused the task outright, so the run says nothing about the verifier beyond the required 0 |
+
+
+Three rewards of 1.0 in 8.7 to 10.8 minutes, 149 to 163 of 240 budgeted calls, 0 errors, 0 wrong-tool
+calls, 0 rate-limit hits, 0 duplicate keys, every refund amount exact in every run. pass^3 held: no
+consistency collapse on this task. Adversarial run 0.0 by refusal.
 
 ### Analysis
 
@@ -550,9 +560,9 @@ cost, and why each line was closed.
 |---|---|
 | Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5. Candidate 2 shelved before the gates. |
 | Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5. |
-| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes. Requirement not met. |
+| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes. Requirement not met. |
 | `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
-| `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0. |
+| `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0; on candidate 5: 0.0 (the agent refused the prompt). |
 | `/cheat` codex x1, reward 0 | Not run. |
 | Failure analysis | Written for the passes (section 7); there are no model failures to analyse yet. |
 | Commands, configs, results documented | This file and `tools/run-trial.sh`. |
