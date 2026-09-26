@@ -85,3 +85,19 @@ Verdict: the feasibility version is a reading task, not a discovery task. HELP s
 to be learned by interacting. The pipeline (sidecar gateway, collect hook, sealed verifier) works and is
 kept; the next revision makes the help terse like real legacy help, keeps every error truthful, and adds
 state that only shows itself over a sequence of requests.
+
+### Hardened revision (branch `ticket/tb3-original-task/candidate-gateway-hardening`)
+
+Changes: HELP lists verbs, syntax and error codes only; errors are short and truthful; a commit is queued and
+applies at the start of the next request in its session chain; FINISH freezes a tenant and REOPEN unfreezes
+it; budget 25 per session; eight tenants to onboard.
+
+| Check | Result |
+|---|---|
+| Static checks | 25/25 pass |
+| Server tests (`pytest tools/opsgate/test_server.py`) | 39 passed |
+| Oracle | reward 1.0, 12/12; 203 requests over 9 sessions |
+| Nop | reward 0.0 |
+| Cheat artifact | reward 0.0 |
+
+Feasibility probe: pending.
