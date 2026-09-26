@@ -4,9 +4,10 @@ One original Terminal-Bench 3 task, built to the current TB3 CI and tested again
 the brief. This file is written as a research log. Section 1 states the method once: the question, how the
 prediction is written down, what is held fixed, what is measured, how runs are analysed, and the rule for
 iterating. Sections 2 to 6 apply that method to each of the five candidate designs in the order they were
-tried, every one under the same headings, with the commits that hold each step. Section 7 is the analysis
-across candidates, section 8 the status against the brief, section 9 the next steps in loop order. Raw
-harbor output lives under `runs/` (not committed).
+tried, every one under the same headings, with the commits that hold each step. Section 7 is the
+hypothesis for candidate 6, recorded before its build; section 8 the analysis across candidates; section 9
+the status against the brief; section 10 the next steps in loop order. Raw harbor output lives under
+`runs/` (not committed).
 
 ## 1. Method
 
@@ -31,7 +32,7 @@ of the 8 h task timeout), before any 8 h trial is spent. Reward 1.0 means the hy
 candidate is retired. One hardening revision is allowed when the transcript names a specific, fixable reason;
 if the hardened version is also solved, the design line is closed. Only a candidate that survives the kill
 test earns the six-trial matrix. Claude goes first because it is the stronger agent on the public leaderboard
-(section 7.3): a candidate Claude solves cannot meet the brief whatever codex does.
+(section 8.3): a candidate Claude solves cannot meet the brief whatever codex does.
 
 ### 1.3 Controls: what is held fixed
 
@@ -153,7 +154,7 @@ Adversarial trial (`8c06bf6`; the CI's `docs/prompts/hack-trial-prompt.md` appen
 |---|---|---|---|---|---|---|
 | claude-code | anthropic/claude-opus-5-5 | max | 0.0 | 1 min | 3 | enumerated /app, /logs and the checker; found no leaked answers, no writable grader state and no way to fake the exact-minimum check; reported "no credible bypass" and left no planner. It noted that a safety classifier cut off one probe; the report was still completed. |
 
-Codex trials on this candidate: not yet run (section 8).
+Codex trials on this candidate: not yet run (section 9).
 
 ### Measurements
 
@@ -355,7 +356,7 @@ level: a fair version of "judgment" collapses into recomputation.
 Retired. This closed the first design search: four candidates, each passing every CI gate, each solved by
 Claude Opus 5.5 at max reasoning in 4 to 71 minutes, and the required matrix run on candidate 1. Before a
 fifth design, the analysis was checked against the official per-task leaderboard data instead of published
-reports (section 7.3), and the axis changed to: irreversible live state, information that arrives in waves,
+reports (section 8.3), and the axis changed to: irreversible live state, information that arrives in waves,
 many interacting rules, lifecycle grading, all behind a wide tool surface (decision record `54dd9eb`).
 
 ## 6. Candidate 5: support-desk-gateway (retired)
@@ -363,7 +364,7 @@ many interacting rules, lifecycle grading, all behind a wide tool surface (decis
 ### Hypothesis
 
 Decision record `54dd9eb`, 2026-09-26 17:59, committed before the first build commit `f4e7f43` at 18:10.
-Two inputs. First, the official per-task data (section 7.3): the ten tasks that defeat every frontier pair
+Two inputs. First, the official per-task data (section 8.3): the ten tasks that defeat every frontier pair
 share one shape, state that changes under the agent and cannot be undone, information that arrives over
 time, many small interacting rules, all-or-nothing lifecycle grading. Second, the author's production
 experience with an agent gateway: with a few hundred tools behind one aggregator key, agents picked
@@ -430,10 +431,20 @@ Kill test (`960f240`; `tools/run-trial.sh claude anthropic/claude-opus-5-5 probe
 |---|---|---|---|---|---|---|
 | probe-desk-v1 | 1.0 (59/59) | 9.4 min | 149 of 240 | 0 | 0 | 149 native MCP calls, 47 shell calls; 10.6 M input tokens, 48.5 K output |
 
+Additional trials after the kill test, same runner and flags, run as extra evidence on consistency
+(pass^k) and on the cheat prompt for this candidate:
+
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Notes |
+|---|---|---|---|---|---|---|
+| run-desk-claude-2 | 1.0 (59/59) | 8.7 min | 149 of 240 | 0 | 0 | same call pattern as the probe |
+| run-desk-claude-3 | 1.0 (59/59) | 10.8 min | 163 of 240 | 0 | 0 | two extra tracker searches, otherwise the same |
+| cheat-desk-claude | 0.0 | 0.3 min | 0 | n/a | n/a | the CI hack prompt appended; the agent refused the task outright, so the run says nothing about the verifier beyond the required 0 |
+
 ### Measurements
 
-Reward 1.0 in 9.4 minutes, 149 of 240 budgeted calls, 0 errors, 0 wrong-tool calls, 0 rate-limit hits,
-0 duplicate keys, every refund amount exact.
+Three rewards of 1.0 in 8.7 to 10.8 minutes, 149 to 163 of 240 budgeted calls, 0 errors, 0 wrong-tool
+calls, 0 rate-limit hits, 0 duplicate keys, every refund amount exact in every run. pass^3 held: no
+consistency collapse on this task. Adversarial run 0.0 by refusal.
 
 ### Analysis
 
@@ -452,11 +463,57 @@ reasoning behaves like the reference solution.
 Retired after the kill test, as the method requires. What the result adds to the analysis: the leaderboard
 shape is necessary but not sufficient. The official zero-score tasks also carry information the agent cannot
 read up front (event feeds at cutoffs, scanned images that override structured data), which a complete
-runbook by definition does not. That is the axis for the next design (section 9).
+runbook by definition does not. That is the axis for the next design (section 7).
 
-## 7. Analysis across candidates
+## 7. Candidate 6: desk-shift-feed (hypothesis recorded, not built)
 
-### 7.1 What the trials show
+### Hypothesis
+
+Decision record, written before any build commit, per the iteration rule in 1.6.
+
+Axis changed from candidate 5, and only this axis: the agent must go and read information that is not in
+the runbook and that changes the right answer to work it has already done. Candidate 5 keeps its gateway,
+its 266 tools, its ledgers, its budget and its lifecycle grading. Candidate 6 adds a shift clock and an
+event feed.
+
+- The desk clock advances as escalations are resolved, and the runbook says so. Proration is computed at
+  the clock reading when the refund is issued, so the same invoice refunds less the later it is handled.
+  The verifier recomputes every amount from the clock reading the gateway recorded at that refund.
+- An event feed, named in the instruction, releases entries at stated cutoffs on the desk clock: a
+  chargeback opened on an invoice refunded an hour earlier, a customer withdrawing a request after the
+  refund went out, an invoice that was unpaid becoming paid, a plan change, a corrected invoice number.
+  The runbook states the corrective action for each kind, and the actions are the usual irreversible
+  ones: a finance issue of a stated kind on an already resolved case, a hold on the account, a message.
+- Resolutions stay final. A corrective action is filed against the resolved escalation through a new
+  gateway tool, never by resolving it again.
+
+Why this should defeat the model when candidate 5 did not: the ten zero-score leaderboard tasks all carry
+information the agent cannot read before it must act, and candidate 5 had everything else (section 8.4).
+The prediction is specific: the model will work the queue as it did in candidate 5, poll the feed when the
+runbook says to, and fail on the reconciliation, either by acting on stale facts for a case it has already
+handled, by repeating a side effect that the feed made wrong, or by missing a corrective action for a case
+it considers closed. Time-dependent proration adds a second failure path: computing amounts from the clock
+at the start of the shift rather than at the moment of the refund.
+
+What proves the hypothesis wrong: reward 1.0 on the kill test (one `claude-code` run on `claude-opus-5-5`
+at `max`, 2 h cap). If the transcript shows the model polling the feed after every resolution and
+reconciling correctly, the line is closed with no hardening revision, because there is no further axis
+inside "stated rules plus a stated source" left to try. Honest prior: about one chance in three that the
+kill test fails, up from the one in five given to candidate 5 before its probe.
+
+Fairness: the instruction names the feed and the cutoffs; the runbook states every corrective rule and the
+clock rule; nothing graded is hidden. Expected outcomes depend on the agent's own order of work, so the
+verifier derives them from the recorded timeline rather than from a fixed answer key; the oracle and the
+verifier implement the arithmetic independently, as in candidate 5.
+
+### Build, controls, trials, measurements, analysis, decision
+
+Not started. The next commit on this line is `prepare(feed)` on
+`ticket/tb3-original-task/candidate-desk-feed-task`, branched from this decision record.
+
+## 8. Analysis across candidates
+
+### 8.1 What the trials show
 
 The brief asks for a task that both agents fail three times out of three. This repository does not yet
 deliver that. Across five candidate designs, four of them passing every CI gate, Claude Opus 5.5 at maximum
@@ -464,7 +521,7 @@ reasoning solved each on the first attempt: 71, 4, 6, 6 and 9 minutes in the kil
 minutes in the three required trials on candidate 1. No trial crashed, timed out, hit a rate limit or
 refused; every pass is genuine. The codex half of the matrix has not been run.
 
-### 7.2 Why the models succeed
+### 8.2 Why the models succeed
 
 Each candidate was built on a documented weakness and each was solved for the same reason: once a task is
 fair by the TB3 rubric, its difficulty is written down somewhere the model can read, and this model reads
@@ -490,7 +547,7 @@ quirks, event feeds revealed at cutoffs), or physical and numerical problems in 
 agent-gateway domain, every rule can be stated, and a stated rule is a solved rule, even with 266 tools
 between the agent and the ledger.
 
-### 7.3 Where the models actually fail: the official per-task data
+### 8.3 Where the models actually fail: the official per-task data
 
 Before choosing the fifth design, the analysis above was checked against the official leaderboard runs
 themselves. The leaderboard submission files in the Terminal-Bench repository
@@ -528,7 +585,7 @@ selection degrades past 30 to 50 tools. On MCP-Atlas (220 tools, 36 servers) the
 MCPMark the best single-attempt rate is 52.6% and the four-in-a-row rate 33.9%; on LiveMCPBench (527 tools)
 about half of all failures are a wrong tool pick.
 
-### 7.4 What candidate 5 added
+### 8.4 What candidate 5 added
 
 Candidate 5 had every item on the leaderboard list except one, and was solved in nine minutes. The missing
 item is the one the ten zero-score tasks all share and a complete runbook cannot: information the agent
@@ -537,32 +594,31 @@ content follows the same stated rules; what defeats the models is content that c
 work already done, or truth that lives in a source the agent must go and read (a scan, a feed at a cutoff)
 rather than in the rules. That is fair under the rubric as long as the instruction says the source exists.
 
-### 7.5 What this repository shows so far
+### 8.5 What this repository shows so far
 
 Five complete TB3 task packages, four of them CI-clean with sealed verifiers, honest oracles and cheat
 artifacts that all score zero; a kill-test discipline that measured each design against the target model
 within hours of building it; and a record, in the git history and in this file, of what was tried, what it
 cost, and why each line was closed.
 
-## 8. Status against the brief
+## 9. Status against the brief
 
 | Requirement | Status |
 |---|---|
 | Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5. Candidate 2 shelved before the gates. |
 | Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5. |
-| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes. Requirement not met. |
+| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes. Requirement not met. |
 | `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
-| `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0. |
+| `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0; on candidate 5: 0.0 (the agent refused the prompt). |
 | `/cheat` codex x1, reward 0 | Not run. |
-| Failure analysis | Written for the passes (section 7); there are no model failures to analyse yet. |
+| Failure analysis | Written for the passes (section 8); there are no model failures to analyse yet. |
 | Commands, configs, results documented | This file and `tools/run-trial.sh`. |
 
-## 9. Next steps, in loop order
+## 10. Next steps, in loop order
 
-1. Hypothesis first. Write the decision record for candidate 6 before any build commit. The axis, from
-   section 7.4: keep candidate 5's gateway and lifecycle grading, and add a source of truth the agent must
-   read on its own (a feed released at stated cutoffs whose entries change the right answer for work already
-   done), named in the instruction so the task stays fair. Prediction, falsifier and kill test as in 1.2.
+1. Hypothesis first: done, section 7. The decision record for candidate 6 is committed before any build
+   commit; the axis is a feed released at stated cutoffs whose entries change the right answer for work
+   already done, plus a clock that makes amounts depend on when the work is done.
 2. Complete the codex half of the record on candidate 1: `codex login`, then three `/run` trials and one
    `/cheat` trial through `tools/run-trial.sh`, so the brief's matrix has a codex result on the same task as
    the Claude result.
