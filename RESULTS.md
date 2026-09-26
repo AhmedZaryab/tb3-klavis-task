@@ -1,16 +1,92 @@
 # Results
 
 One original Terminal-Bench 3 task, built to the current TB3 CI and tested against the agents named in
-the brief. This file records every candidate design in the order it was tried, the checks and trials run
-against it, and why it was kept or retired. Raw harbor output lives under `runs/` (not committed).
+the brief. This file is written as a research log. Section 1 states the method once: the question, how the
+prediction is written down, what is held fixed, what is measured, how runs are analysed, and the rule for
+iterating. Sections 2 to 6 apply that method to each of the five candidate designs in the order they were
+tried, every one under the same headings, with the commits that hold each step. Section 7 is the analysis
+across candidates, section 8 the status against the brief, section 9 the next steps in loop order. Raw
+harbor output lives under `runs/` (not committed).
 
-Environment: harbor 0.23.0, Docker Desktop 29.8.0 on macOS (arm64, 18 cores, 16 GB for Docker),
-terminal-bench main at `4def1f3` (2026-09-23) for the static checks and rubric.
+## 1. Method
 
-Agents required by the brief: `claude-code` on `anthropic/claude-opus-5-5` with `reasoning_effort=max`,
-`codex` on `openai/gpt-6-sol` with `reasoning_effort=xhigh`. The live TB3 CI defaults moved to
-`anthropic/claude-fable-5-1` and `openai/gpt-6-astra` on 2026-09-21; those are run as additional evidence
-once the required matrix is complete.
+### 1.1 Question
+
+Can the two agents named in the brief, `claude-code` on `anthropic/claude-opus-5-5` at `reasoning_effort=max`
+and `codex` on `openai/gpt-6-sol` at `reasoning_effort=xhigh`, solve a fair, CI-clean TB3 task in the
+agent-gateway domain? The brief needs a task that both fail three times out of three and cannot cheat. The
+live TB3 CI defaults moved to `anthropic/claude-fable-5-1` and `openai/gpt-6-astra` on 2026-09-21; those are
+run as additional evidence once the required matrix is complete.
+
+### 1.2 Prediction, and how it is written down
+
+Each candidate begins with a written hypothesis: the documented model weakness it targets, why the design
+should defeat the model, and what result would prove the hypothesis wrong. It is recorded before the build,
+either in a decision-record commit on the epic branch or in the candidate's `prepare` commit (the README's
+Difficulty paragraph), and it is repeated under "Hypothesis" in the candidate's section below with the
+commit that holds it. The falsifier is the same for every candidate: the kill test.
+
+Kill test: one clean-room run of `claude-code` on `claude-opus-5-5` at `max`, with a 2 h agent cap (a quarter
+of the 8 h task timeout), before any 8 h trial is spent. Reward 1.0 means the hypothesis is false and the
+candidate is retired. One hardening revision is allowed when the transcript names a specific, fixable reason;
+if the hardened version is also solved, the design line is closed. Only a candidate that survives the kill
+test earns the six-trial matrix. Claude goes first because it is the stronger agent on the public leaderboard
+(section 7.3): a candidate Claude solves cannot meet the brief whatever codex does.
+
+### 1.3 Controls: what is held fixed
+
+- Harness: harbor 0.23.0, Docker Desktop 29.8.0 on macOS arm64 (18 cores, 16 GB for Docker),
+  terminal-bench main at `4def1f3` (2026-09-23) for the static checks and rubric.
+- Agent configuration: one runner, `tools/run-trial.sh`, applies the same flags to every run: the brief's
+  model and effort, subscription auth (`CLAUDE_FORCE_OAUTH`, `CODEX_FORCE_AUTH_JSON`),
+  `CLAUDE_CODE_NO_MODEL_FALLBACK=1` so no fallback model can answer for the one under test, one trial at a
+  time, machine kept awake, token redacted from every saved log.
+- Task: once a candidate's gates pass, its instruction, environment image, verifier and hidden data are
+  frozen; every trial of that candidate sees the same task. Agent code never runs as root. The verifier runs
+  after the agent's container is gone and reads state the agent cannot reach.
+- Gates, passed before any agent sees the task: 25 static checks, both Docker images build, oracle (the
+  reference solution) scores 1.0, nop (an agent that does nothing) scores 0.0, the cheat artifact scores 0.0.
+  The oracle is the positive control (the task is solvable), nop and cheat are the negative controls (the
+  task is not free and the verifier cannot be gamed).
+- Independent variable: the agent and its model. Nothing else changes between trials.
+- Exclusion rule, from the brief: a crash, timeout, rate limit or container failure is an invalid trial. It
+  is recorded and rerun, never counted as a pass or a fail. None occurred in this work.
+
+### 1.4 What is measured
+
+Per trial: reward from the verifier's CTRF file (1.0 or 0.0, with the pass count), wall-clock agent time,
+number of tool calls, errors, and for probes the minute at which the transcript first states the key idea.
+Per candidate: the gate results and the data sizes.
+
+### 1.5 How runs are analysed
+
+Every transcript is read, not only scored. For each run: what the model read first, when it stated its model
+of the problem, whether its call pattern matched the reference solution, whether it hit any trap the design
+set (wrong tool, retry storm, budget, irreversible mistake), and what it did after it believed it was done.
+A pass is analysed as carefully as a fail, because the pass is what falsifies the hypothesis.
+
+### 1.6 Iteration rule
+
+Retire or shelve, write the reason in one paragraph, name the one axis the next design changes, then build.
+The decision record is committed before the next `prepare` commit, so the order is auditable in the history.
+
+### 1.7 How the loop shows in the git history
+
+One branch per candidate under `ticket/tb3-original-task/`, merged into `epic/tb3-original-task`, merged
+into `main`. Commit prefixes map to loop steps:
+
+| Prefix | Loop step | What the commit holds |
+|---|---|---|
+| `prepare` | hypothesis, task statement | instruction, task.toml, README with the Difficulty rationale |
+| `impl` | build | environment, reference solution, verifier, cheat artifact, tooling |
+| `test` | build, held to the truth | test suites for the verifier, oracle and any sidecar |
+| `fix` | iterate inside the build | one gate or review finding, fixed with its regression test |
+| `verify` | measure | a gate result or a trial result; the subject line carries the number |
+| `docs(epic)` | analyse, decide | trial records, analysis, and the decision record that opens the next candidate |
+| `merge` | close one turn of the loop | the subject line states the outcome |
+
+Timeline: candidate 1 and its fallback (candidate 2) on 2026-09-25 evening; the pivot record, candidates 3
+and 4, the Claude half of the matrix, the leaderboard study and candidate 5 on 2026-09-26.
 
 ## Candidate 1: batch-tool-dispatch (retired)
 
