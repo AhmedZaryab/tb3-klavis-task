@@ -143,36 +143,38 @@ def test_end_to_end_routes_stripe_create_customer():
 # ---------------------------------------------------------------------------
 
 def test_tokens_read_equals_sum_of_scored_summaries():
+    """tokens_read counts every server summary, the group summaries of the BEAM
+    best servers, and the tool summaries of the BEAM best groups in each."""
+    from route import BEAM, _bm25_scores, _top
     catalog = make_catalog()
     index = make_index()
-    result = route_intent(index, catalog, "open a new issue on the repository")
+    intent = "open a new issue on the repository"
+    result = route_intent(index, catalog, intent)
 
-    server = next(s for s in index["servers"] if s["name"] == result["server"])
-    group = server["groups"][0]
-
-    expected = (
-        sum(len(tokenize(s["summary"])) for s in index["servers"])
-        + sum(len(tokenize(g["summary"])) for g in server["groups"])
-        + sum(len(tokenize(t["summary"])) for t in group["tools"])
-    )
+    q = tokenize(intent)
+    servers = index["servers"]
+    s_docs = [tokenize(s["summary"]) for s in servers]
+    expected = sum(len(d) for d in s_docs)
+    for si in _top(_bm25_scores(q, s_docs), BEAM):
+        groups = servers[si]["groups"]
+        g_docs = [tokenize(g["summary"]) for g in groups]
+        expected += sum(len(d) for d in g_docs)
+        for gi in _top(_bm25_scores(q, g_docs), BEAM):
+            expected += sum(len(tokenize(t["summary"])) for t in groups[gi]["tools"])
     assert result["tokens_read"] == expected
 
 
-def test_tokens_read_only_counts_the_chosen_branch_at_each_level():
-    # A 3-server, 1-group-each index: tokens read must be server summaries
-    # (all of them) + groups within the winning server (all of them, here 1)
-    # + tools within the winning group (all of them) -- never the losing
-    # server's groups or tools.
+def test_tokens_read_never_counts_beyond_the_beam():
+    """With three servers and BEAM = 2, the losing server's groups and tools
+    are never read."""
     catalog = make_catalog()
     index = make_index()
     result = route_intent(index, catalog, "post a message to a channel")
-    # slack has exactly one group with 2 tools; github/stripe groups+tools
-    # must not be counted.
-    server_tokens = sum(len(tokenize(s["summary"])) for s in index["servers"])
-    slack_group = index["servers"][1]["groups"][0]
-    group_tokens = len(tokenize(slack_group["summary"]))
-    tool_tokens = sum(len(tokenize(t["summary"])) for t in slack_group["tools"])
-    assert result["tokens_read"] == server_tokens + group_tokens + tool_tokens
+    all_tokens = sum(len(tokenize(s["summary"])) for s in index["servers"])
+    for s in index["servers"]:
+        for g in s["groups"]:
+            all_tokens += len(tokenize(g["summary"])) + sum(len(tokenize(t["summary"])) for t in g["tools"])
+    assert result["tokens_read"] < all_tokens
 
 
 # ---------------------------------------------------------------------------
