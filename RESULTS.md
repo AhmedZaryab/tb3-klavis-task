@@ -74,4 +74,14 @@ Two gate failures during bring-up, both fixed with tests: the oracle's tokenizer
 (replaced with the standard library splitter), and the gateway wrote no state file until its first request,
 which turned a do-nothing agent into a verifier error.
 
-Feasibility probe: pending.
+Feasibility probe (2 h cap):
+
+| Agent | Model | Effort | Reward | Time | Notes |
+|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 4 min 13 s | 38 tool calls; read HELP for every verb, paged the tool list, onboarded all three tenants without tripping the guard |
+
+Verdict: the feasibility version is a reading task, not a discovery task. HELP spelled out every rule
+(budget size, loop-guard threshold, resume semantics, commit ordering, what FINISH checks), so nothing had
+to be learned by interacting. The pipeline (sidecar gateway, collect hook, sealed verifier) works and is
+kept; the next revision makes the help terse like real legacy help, keeps every error truthful, and adds
+state that only shows itself over a sequence of requests.
