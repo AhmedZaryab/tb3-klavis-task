@@ -16,7 +16,7 @@ cd "$(dirname "$0")/.."
 export PATH="$HOME/.local/bin:$HOME/.docker/bin:$PATH"
 
 agent=$1; model=$2; job=$3; shift 3
-task=tasks/batch-tool-dispatch
+task=${TASK:-tasks/gateway-tenant-onboarding}
 mkdir -p runs
 set -a; [ -f .env ] && source .env; set +a
 
