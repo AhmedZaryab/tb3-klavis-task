@@ -197,6 +197,67 @@ knowledge that cannot be written down without becoming a hidden rule (real docum
 runtime quirks), or physical and numerical problems in specialist domains. In the agent-gateway domain,
 where the author's expertise lies, every rule can be stated, and a stated rule is a solved rule.
 
+### Where the models actually fail: the official per-task data
+
+The analysis above was written from the four probes and from published reports. Before choosing a fifth
+design it was checked against the official leaderboard runs themselves. The leaderboard submission files
+in the Terminal-Bench repository (`leaderboard/submissions/*.json`) name the Harbor Hub jobs behind each
+score, and the Hub's `get_job_tasks` endpoint returns the per-task reward for a public job without a
+login. Pulled on 2026-09-26: 66 tasks in the current set, 13 agent and model pairs, 5 attempts each.
+
+| Pair (agent, model, effort) | Accuracy | pass@5 |
+|---|---|---|
+| claude-code, claude-fable-5-1, max | 57.9% | 78.8% |
+| claude-code, claude-opus-5, max | 51.8% | 69.7% |
+| codex, gpt-5.6-sol, max | 37.3% | 60.6% |
+
+Neither of the brief's models (`claude-opus-5-5`, `gpt-6-sol`) is on the official board yet.
+
+By category, the mean pass rate over all 13 pairs is lowest for Operations (0.20 over 9 tasks) and highest
+for Security (0.46 over 5). Thirteen tasks are failed by both `claude-opus-5` and `gpt-5.6-sol` on every
+attempt; ten of those also defeat `claude-fable-5-1` every time. Reading those ten, the shape is the same
+in each:
+
+- State that changes under the agent and cannot be undone. A freight dispatch desk where the verifier
+  asks for plans at several cutoffs during a shift and grades every commitment made along the way.
+- Information that arrives over time, so the agent must act before it has seen the whole problem.
+- Many small rules that interact: driver hours, supplier cutoffs, tolls and delivery windows, each simple,
+  together a trap.
+- Grading on the whole lifecycle, all or nothing.
+- Truth split across sources: in the one official task that exposes an MCP server to the agent, the
+  invoice images override the structured data. That task scores 0 for all 13 pairs.
+
+The solved tasks are the mirror image: one artifact, computed offline, checkable by the model before it
+hands it in. Candidates 1, 3 and 4 in this repository are all of that shape, and each was solved in
+minutes. Candidate 3 had a live gateway but a small state that a status command reported truthfully, so
+the model read it and walked through.
+
+Outside Terminal-Bench, the tool-calling numbers point the same way. Anthropic's own documentation says
+tool selection degrades past 30 to 50 tools. On MCP-Atlas (220 tools, 36 servers) the best model reaches
+62%; on MCPMark the best single-attempt rate is 52.6% and the four-in-a-row rate 33.9%; on LiveMCPBench
+(527 tools) about half of all failures are a wrong tool pick.
+
+### Decision: candidate 5, a support desk behind a 250-tool gateway
+
+The author's production experience with an agent gateway is the second input to this decision. With a few
+hundred tools behind one aggregator key, agents picked look-alike tools, made thirty or more calls where
+two or three were needed, retried straight into rate limits, and went down wrong paths that a fresh
+context would not have taken. Runaway protection had to be added to the gateway. None of the first four
+candidates reproduced that setting: they gave the model a terminal and a file, not a tool surface.
+
+Candidate 5 combines the two findings. The hard core is the Operations shape from the data: a customer
+support escalation queue where refunds and messages cannot be undone, follow-ups arrive as earlier cases
+are resolved, a dozen stated rules interact (proration by plan, chargeback holds, invoice ownership,
+one refund per invoice, channel and locale), and the verifier grades the whole lifecycle from the
+gateway's own ledger. The tool surface is the production setting: every backend sits behind one MCP
+gateway that Harbor registers directly into Claude Code and Codex, about 250 tools across 22 services
+with deprecated, sandbox and legacy look-alikes described honestly, a rate limit with retry-after on
+billing, and a call budget that ends the run when it is spent. The tools are a multiplier; the state
+machine is the difficulty, so writing a client script does not remove it.
+
+Everything is stated in the runbook. Nothing is hidden except the expected end state, which the verifier
+computes from the same seed. The kill test is unchanged: a two-hour Opus 5.5 probe before the matrix.
+
 ### What this repository shows instead
 
 Four complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
