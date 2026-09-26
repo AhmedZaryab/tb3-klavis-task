@@ -385,7 +385,7 @@ def test_noise_tools_are_inert_and_snapshot_as_counts():
     could corrupt what the verifier grades, or leak record volume as data."""
     st = new_state(load_seed())
 
-    read = server.dispatch(st, "github_repositorys_list", {})
+    read = server.dispatch(st, "github_repositories_list", {})
     assert read["ok"] is True
     assert len(read["result"]["items"]) > 0
 
@@ -396,6 +396,7 @@ def test_noise_tools_are_inert_and_snapshot_as_counts():
     snapshot = st.snapshot()
     assert isinstance(snapshot["noise"]["github"], int)
     assert snapshot["noise"]["github"] == len(st.noise["github"])
+
 
 # ---- regression tests from the review gate ---------------------------------
 
@@ -444,3 +445,10 @@ def test_add_months_clamps_late_days_identically_in_rules_and_oracle():
     assert rules.add_months(date(2026, 1, 31), 1) == date(2026, 2, 28)
 
 
+def test_catalog_tool_names_are_pluralised_correctly():
+    """Tool names are what the agent sees; 'querys' and 'repositorys' are
+    typos in a production catalog and the rubric flags them."""
+    names = [t.name for t in server.MCP_TOOLS]
+    assert not [n for n in names if "ys_" in n or n.endswith("ys")], [n for n in names if "ys_" in n or n.endswith("ys")]
+    assert "datadog_log_queries_list" in names
+    assert "github_repositories_list" in names

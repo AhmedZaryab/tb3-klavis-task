@@ -41,6 +41,10 @@ VERBS = [
 ]
 
 
+def plural(noun: str) -> str:
+    return noun[:-1] + "ies" if noun.endswith("y") else noun + "s"
+
+
 def _schema(fields: dict) -> dict:
     props = {k: {"type": v} for k, v in fields.items()}
     required = [k for k in fields if k in ("id", "query", "title")]
@@ -48,7 +52,7 @@ def _schema(fields: dict) -> dict:
 
 
 def build_noise_tools(seed_value: int) -> list:
-    """Return a list of (name, description, schema, kind, server) tuples."""
+    """Return a list of (name, description, schema, kind, server, noun) tuples."""
     rng = random.Random(seed_value)
     tools = []
     for server, (label, nouns) in SERVERS.items():
@@ -58,9 +62,9 @@ def build_noise_tools(seed_value: int) -> list:
                     continue
                 if rng.random() < 0.3:
                     continue
-                name = f"{server}_{pattern.format(noun=noun)}"
-                description = desc.format(noun=noun.replace("_", " "), nouns=noun.replace("_", " ") + "s", label=label)
-                tools.append((name, description, _schema(fields), kind, server))
+                name = f"{server}_{pattern.format(noun=noun)}".replace(f"{noun}s_", f"{plural(noun)}_")
+                description = desc.format(noun=noun.replace("_", " "), nouns=plural(noun).replace("_", " "), label=label)
+                tools.append((name, description, _schema(fields), kind, server, noun))
     return tools
 
 

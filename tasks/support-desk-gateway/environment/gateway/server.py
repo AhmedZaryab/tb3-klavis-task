@@ -491,8 +491,7 @@ def make_noise_handler(name: str, kind: str, server: str, noun: str):
     return handler
 
 
-for _name, _desc, _schema, _kind, _server in build_noise_tools(seed_value=7):
-    _noun = _name[len(_server) + 1:].rsplit("_", 1)[0].rstrip("s")
+for _name, _desc, _schema, _kind, _server, _noun in build_noise_tools(seed_value=7):
     TOOLS.append((_name, _desc, _schema, make_noise_handler(_name, _kind, _server, _noun)))
 
 HANDLERS = {name: fn for name, _, _, fn in TOOLS}
@@ -509,8 +508,8 @@ def dispatch(st: State, name: str, args: dict) -> dict:
             raise GatewayError("E_NO_TOOL", f"no tool {name}")
         if st.calls["total"] > st.budget:
             st.calls["budget_exhausted"] = True
-        check_args(name, args)
             raise GatewayError("E_BUDGET", f"run budget of {st.budget} tool calls is exhausted")
+        check_args(name, args)
         if name.startswith(st.rate["prefix"]):
             now = time.monotonic()
             while st.recent_billing and now - st.recent_billing[0] > st.rate["window_s"]:
