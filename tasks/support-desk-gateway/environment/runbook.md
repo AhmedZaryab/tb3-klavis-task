@@ -77,4 +77,5 @@ ids of the side effects it produced, every refund is on the billing ledger
 for exactly the computed amount, every message went through the right
 channel with the right template, every finance issue exists in project
 `FIN`, and every ticket that was open is closed with the resolution code.
-Nothing else was refunded, sent or filed.
+Nothing else was refunded, credited, sent, posted, drafted or filed, on any
+ledger, current or legacy.
