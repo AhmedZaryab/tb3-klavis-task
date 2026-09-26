@@ -100,4 +100,12 @@ it; budget 25 per session; eight tenants to onboard.
 | Nop | reward 0.0 |
 | Cheat artifact | reward 0.0 |
 
-Feasibility probe: pending.
+Feasibility probe (2 h cap):
+
+| Agent | Model | Effort | Reward | Time | Notes |
+|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 6 min 2 s | 96 tool calls; probed STATUS after each step, learned the queued-then-applied rule and the freeze, never retried, no duplicates |
+
+Verdict: a truthful interactive system with a stated goal is learned by this model in minutes, even with
+terse help. Making it harder from here would mean lying in the help or hiding state from STATUS, which the
+rubric forbids. The gateway line of design is closed; the package stays as the record.
