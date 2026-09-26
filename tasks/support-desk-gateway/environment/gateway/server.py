@@ -254,6 +254,8 @@ def helpdesk_ticket_close(st: State, a: dict):
 @tool("helpdesk_ticket_solve", "Mark a helpdesk ticket solved without a resolution code. The ticket stays open for the customer to reopen.", {"id": S}, ["id"])
 def helpdesk_ticket_solve(st: State, a: dict):
     t = st.ticket(a["id"])
+    if t["status"] == "closed":
+        raise GatewayError("E_TICKET_CLOSED", f"{t['id']} is already closed by {t['closed_by']}")
     t["status"] = "solved"
     return {"ticket_id": t["id"], "status": "solved"}
 

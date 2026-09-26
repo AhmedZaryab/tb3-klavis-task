@@ -396,3 +396,21 @@ def test_noise_tools_are_inert_and_snapshot_as_counts():
     snapshot = st.snapshot()
     assert isinstance(snapshot["noise"]["github"], int)
     assert snapshot["noise"]["github"] == len(st.noise["github"])
+
+# ---- regression tests from the review gate ---------------------------------
+
+def test_solve_refuses_a_closed_ticket():
+    """helpdesk_ticket_solve had no closed guard, so an agent could flip a
+    wrongly closed ticket to 'solved' and close it again with another code,
+    breaking 'closed tickets cannot be undone'. It must refuse like close."""
+    st = new_state(load_seed())
+    assert server.dispatch(st, "helpdesk_ticket_close", {"id": "T-701", "code": "NEEDS_INFO"})["ok"]
+    solve = server.dispatch(st, "helpdesk_ticket_solve", {"id": "T-701"})
+    assert solve["ok"] is False and solve["error"] == "E_TICKET_CLOSED"
+    again = server.dispatch(st, "helpdesk_ticket_close", {"id": "T-701", "code": "REFUNDED"})
+    assert again["ok"] is False and again["error"] == "E_TICKET_CLOSED"
+    assert st.tickets["T-701"]["code"] == "NEEDS_INFO"
+    withdrawn = server.dispatch(st, "helpdesk_ticket_solve", {"id": "T-707"})
+    assert withdrawn["ok"] is False and withdrawn["error"] == "E_TICKET_CLOSED"
+
+
