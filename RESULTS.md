@@ -85,3 +85,27 @@ Verdict: the feasibility version is a reading task, not a discovery task. HELP s
 to be learned by interacting. The pipeline (sidecar gateway, collect hook, sealed verifier) works and is
 kept; the next revision makes the help terse like real legacy help, keeps every error truthful, and adds
 state that only shows itself over a sequence of requests.
+
+### Hardened revision (branch `ticket/tb3-original-task/candidate-gateway-hardening`)
+
+Changes: HELP lists verbs, syntax and error codes only; errors are short and truthful; a commit is queued and
+applies at the start of the next request in its session chain; FINISH freezes a tenant and REOPEN unfreezes
+it; budget 25 per session; eight tenants to onboard.
+
+| Check | Result |
+|---|---|
+| Static checks | 25/25 pass |
+| Server tests (`pytest tools/opsgate/test_server.py`) | 39 passed |
+| Oracle | reward 1.0, 12/12; 203 requests over 9 sessions |
+| Nop | reward 0.0 |
+| Cheat artifact | reward 0.0 |
+
+Feasibility probe (2 h cap):
+
+| Agent | Model | Effort | Reward | Time | Notes |
+|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 6 min 2 s | 96 tool calls; probed STATUS after each step, learned the queued-then-applied rule and the freeze, never retried, no duplicates |
+
+Verdict: a truthful interactive system with a stated goal is learned by this model in minutes, even with
+terse help. Making it harder from here would mean lying in the help or hiding state from STATUS, which the
+rubric forbids. The gateway line of design is closed; the package stays as the record.

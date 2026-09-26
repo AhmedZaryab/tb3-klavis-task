@@ -1,23 +1,13 @@
 {
   "tenants": {
-    "acme-corp": {
-      "onboarded": false,
-      "bindings": [],
-      "grants": {},
-      "invocations": {}
-    },
-    "globex": {
-      "onboarded": false,
-      "bindings": [],
-      "grants": {},
-      "invocations": {}
-    },
-    "initech": {
-      "onboarded": false,
-      "bindings": [],
-      "grants": {},
-      "invocations": {}
-    },
+    "acme-corp": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "globex": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "initech": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "vandelay": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "stark": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "wayne": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "wonka": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
+    "tyrell": { "onboarded": false, "bindings": [], "grants": {}, "invocations": {} },
     "umbrella": {
       "onboarded": true,
       "bindings": ["crm-contacts-v2", "billing-invoices-v2", "chat-post-v3"],
