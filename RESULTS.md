@@ -486,6 +486,12 @@ event feed.
   ones: a finance issue of a stated kind on an already resolved case, a hold on the account, a message.
 - Resolutions stay final. A corrective action is filed against the resolved escalation through a new
   gateway tool, never by resolving it again.
+- Added on 2026-09-26 evening after a second pass over the leaderboard data (section 8.3): the runbook
+  is stale in a few stated places, and says so at the top. Where the gateway's tool descriptions or
+  replies disagree with the runbook, the gateway is right. Three of the fourteen tasks that defeat the
+  strongest board model are debugging tasks whose comments are wrong but believable; the analogue in a
+  production gateway is documentation drift, and the truth is always discoverable from the system. One
+  stale item changes a graded amount (the clock advance per resolution); the others cost budget only.
 
 Why this should defeat the model when candidate 5 did not: the ten zero-score leaderboard tasks all carry
 information the agent cannot read before it must act, and candidate 5 had everything else (section 8.4).
@@ -502,7 +508,7 @@ inside "stated rules plus a stated source" left to try. Honest prior: about one 
 kill test fails, up from the one in five given to candidate 5 before its probe.
 
 Fairness: the instruction names the feed and the cutoffs; the runbook states every corrective rule and the
-clock rule; nothing graded is hidden. Expected outcomes depend on the agent's own order of work, so the
+clock rule, and states that it is stale where the gateway disagrees; nothing graded is hidden. Expected outcomes depend on the agent's own order of work, so the
 verifier derives them from the recorded timeline rather than from a fixed answer key; the oracle and the
 verifier implement the arithmetic independently, as in candidate 5.
 
@@ -584,6 +590,22 @@ Outside Terminal-Bench, the tool-calling numbers point the same way. Anthropic's
 selection degrades past 30 to 50 tools. On MCP-Atlas (220 tools, 36 servers) the best model reaches 62%; on
 MCPMark the best single-attempt rate is 52.6% and the four-in-a-row rate 33.9%; on LiveMCPBench (527 tools)
 about half of all failures are a wrong tool pick.
+
+A second pass on 2026-09-26 evening, over the CI bot's own trial analyses on recent task PRs in the
+Terminal-Bench repository, adds three points. First, the recent tasks that defeat both CI agents are near
+misses under all-or-nothing grading: 33 of 38 tests passing, or a real fix on a code path the verifier
+does not exercise. Second, the bot's own runs show `claude-fable-5-1` falling back to `claude-opus-5` or
+`claude-opus-4-8` mid-task, and a public review found that only one of five published Opus 5.5 scores
+rules fallback out; every trial in this repository sets `CLAUDE_CODE_NO_MODEL_FALLBACK=1`, so its numbers
+are the named model's alone. Third, the CI hack prompt triggers a safety refusal on both agents in most
+recent runs, which is why a refusal is reported here as "0 by refusal" and not as verifier evidence.
+
+Grouping the fourteen tasks the strongest board model fails every time, by what the authors say makes
+them hard: doubting text that is wrong but believable (three debugging tasks); returning to work already
+done when new facts arrive (the two dispatch tasks and the claims task); rules that interact so that a
+local fix breaks a global one (harmony, coupled bugs); expert knowledge that cannot be looked up (four
+science tasks); and artifacts that must stay correct when a parameter changes (CAD, build pipeline,
+anonymizer). Candidate 6 targets the second and third groups, and takes the first as its third change.
 
 ### 8.4 What candidate 5 added
 
