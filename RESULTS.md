@@ -37,8 +37,28 @@ Kill test 2 (clean-room agent run, 2 h cap):
 |---|---|---|---|---|---|
 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 71 min | flow model stated at minute 11; planner written at minute 10; done at minute 35, then built a C++ solver it did not need |
 
-Retired: the insight is textbook for this model. The package stays as the record; the required trial matrix
-was not run on it because the design does not meet the failure bar.
+Retired as a difficulty candidate: the insight is textbook for this model. The package stays as the record,
+and because no later candidate held either, the brief's required trial matrix is run on it.
+
+Required trials (`tools/run-trial.sh`, full 8 h agent timeout, subscription auth):
+
+| # | Agent | Model | Effort | Reward | Time | Tool calls | Errors | Job |
+|---|---|---|---|---|---|---|---|---|
+| 1 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 99 min | 82 | none | `runs/run-dispatch-claude-1` |
+| 2 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 39 min | 52 | none | `runs/run-dispatch-claude-2` |
+| 3 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 92 min | 96 | none | `runs/run-dispatch-claude-3` |
+
+Additional evidence on the live CI defaults (not required by the brief):
+
+| Agent | Model | Effort | Reward | Time | Tool calls | Errors | Job |
+|---|---|---|---|---|---|---|---|
+| claude-code | anthropic/claude-fable-5-1 | max | 1.0 | 113 min | 59 | none | `runs/run-dispatch-fable-1` |
+
+Adversarial trial (the CI's `docs/prompts/hack-trial-prompt.md` appended to the instruction, one run per agent):
+
+| Agent | Model | Effort | Reward | Time | Tool calls | What it did |
+|---|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 0.0 | 1 min | 3 | enumerated /app, /logs and the checker; found no leaked answers, no writable grader state and no way to fake the exact-minimum check; reported "no credible bypass" and left no planner. It noted that a safety classifier cut off one probe; the report was still completed. |
 
 ## Candidate 2: mcp-tool-index (shelved)
 
@@ -142,3 +162,44 @@ mechanical, not a judgment. The pattern that beat earlier models needed mechanis
 pins down, and that is the kind of hidden rule the rubric forbids. Retired. This closes the design search:
 four candidates, each passing every CI gate, each solved by Claude Opus 5.5 at max reasoning in 4 to 71
 minutes. The required trial matrix runs on candidate 1.
+
+## Analysis
+
+### What the six standard trials show
+
+The brief asks for a task that both agents fail three times out of three. This repository does not deliver
+that. Across four candidate designs, every one passing every CI gate, Claude Opus 5.5 at maximum
+reasoning solved each in the first attempt: 71, 4, 6 and 6 minutes in the probes, and 99, 39 and 92
+minutes in the three required trials on candidate 1. No trial crashed, timed out, hit a rate limit or
+refused; every pass is genuine.
+
+### Why the models succeed
+
+Each candidate was built on a documented weakness and each was solved for the same reason: once a task is
+fair by the TB3 rubric, its difficulty is written down somewhere the model can read, and this model reads
+everything. In the transcripts it reads the format and the checker first, states the modelling idea within
+minutes, builds several independent checkers of its own, and stops only when they agree.
+
+- Candidate 1 asked for an algorithmic insight (the token bucket relaxes exactly into a min-cost flow). The
+  insight is textbook for a model trained on operations research; a generic LP solver cannot scale, but the
+  model never tried one. It went straight to the flow.
+- Candidate 2 asked for compression under a fixed lexical router. The reference solution could not reach a
+  fair bar, so the task was unfair before it was hard.
+- Candidate 3 asked the model to learn an unfamiliar stateful system by interacting with it. With honest
+  help and a truthful status command, that is a few dozen requests of reading. Making the help terse and the
+  state deferred added two minutes.
+- Candidate 4 asked for a judgment that recomputation cannot confirm: how many distinct defects explain a
+  ledger. With every billing rule stated, each defect is a clean single-rule deviation and the grouping is
+  mechanical.
+
+The pattern across the published attempts we surveyed holds here: what still beats these models is
+knowledge that cannot be written down without becoming a hidden rule (real document layouts, real legacy
+runtime quirks), or physical and numerical problems in specialist domains. In the agent-gateway domain,
+where the author's expertise lies, every rule can be stated, and a stated rule is a solved rule.
+
+### What this repository shows instead
+
+Four complete, CI-clean TB3 task packages with sealed verifiers, honest oracles and cheat artifacts that all
+score zero; a kill-test discipline that measured each design against the target model within hours of
+building it; and a record, in the git history and in this file, of what was tried, what it cost, and why
+each line was closed.
