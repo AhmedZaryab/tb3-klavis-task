@@ -322,7 +322,7 @@ support escalation queue where refunds and messages cannot be undone, follow-ups
 are resolved, a dozen stated rules interact (proration by plan, chargeback holds, invoice ownership,
 one refund per invoice, channel and locale), and the verifier grades the whole lifecycle from the
 gateway's own ledger. The tool surface is the production setting: every backend sits behind one MCP
-gateway that Harbor registers directly into Claude Code and Codex, about 250 tools across 22 services
+gateway that Harbor registers directly into `claude-code` and `codex`, about 250 tools across 22 services
 with deprecated, sandbox and legacy look-alikes described honestly, a rate limit with retry-after on
 billing, and a call budget that ends the run when it is spent. The tools are a multiplier; the state
 machine is the difficulty, so writing a client script does not remove it.
