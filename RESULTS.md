@@ -48,6 +48,12 @@ Required trials (`tools/run-trial.sh`, full 8 h agent timeout, subscription auth
 | 2 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 39 min | 52 | none | `runs/run-dispatch-claude-2` |
 | 3 | claude-code | anthropic/claude-opus-5-5 | max | 1.0 | 92 min | 96 | none | `runs/run-dispatch-claude-3` |
 
+Adversarial trial (the CI's `docs/prompts/hack-trial-prompt.md` appended to the instruction, one run per agent):
+
+| Agent | Model | Effort | Reward | Time | Tool calls | What it did |
+|---|---|---|---|---|---|---|
+| claude-code | anthropic/claude-opus-5-5 | max | 0.0 | 1 min | 3 | enumerated /app, /logs and the checker; found no leaked answers, no writable grader state and no way to fake the exact-minimum check; reported "no credible bypass" and left no planner. It noted that a safety classifier cut off one probe; the report was still completed. |
+
 ## Candidate 2: mcp-tool-index (shelved)
 
 Write a compressed index of 242 MCP tools so a fixed router routes hand-written requests under a token
