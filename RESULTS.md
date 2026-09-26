@@ -60,4 +60,18 @@ agent's container is gone. Chosen after a second research round on documented fr
 learning an unfamiliar stateful system by interaction, and harness sensitivity, are the failure modes with
 the strongest evidence that survive a self-verifying agent.
 
-Feasibility probe and gates: pending.
+Checks (`tasks/gateway-tenant-onboarding`, branch `ticket/tb3-original-task/candidate-gateway-probe`):
+
+| Check | Command | Result |
+|---|---|---|
+| Static checks | `for c in scripts/checks/check-*.sh; do bash $c tasks/gateway-tenant-onboarding; done` | 25/25 pass |
+| Server tests | `pytest tools/opsgate/test_server.py` | 19 passed |
+| Oracle | `harbor run -p tasks/gateway-tenant-onboarding --agent oracle --env docker --yes` | reward 1.0, 7/7; 55 requests over 7 sessions |
+| Nop | `harbor run -p tasks/gateway-tenant-onboarding --agent nop --env docker --yes` | reward 0.0 |
+| Cheat artifact | `cheat/solve.sh` run as the solution | reward 0.0 (forged file never collected) |
+
+Two gate failures during bring-up, both fixed with tests: the oracle's tokenizer mishandled quoted names
+(replaced with the standard library splitter), and the gateway wrote no state file until its first request,
+which turned a do-nothing agent into a verifier error.
+
+Feasibility probe: pending.
