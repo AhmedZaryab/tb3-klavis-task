@@ -17,4 +17,4 @@ The git history follows the same loop: one branch per candidate, commit prefixes
 | 3 | `gateway-tenant-onboarding` | all CI gates green; solved by Claude Opus 5.5 in 4 min, hardened version in 6 min; retired |
 | 4 | `gateway-metering-forensics` | all CI gates green; solved by Claude Opus 5.5 in 6 min; retired |
 | 5 | `support-desk-gateway` | built from the official per-task leaderboard data; all CI gates green; solved by Claude Opus 5.5 in 9 min through 266 native MCP tools; retired |
-| 6 | `desk-shift-feed` | hypothesis recorded before the build; all CI gates green; Opus 5.5 probe in progress |
+| 6 | `desk-shift-feed` | hypothesis recorded before the build; all CI gates green; solved by Claude Opus 5.5 in 10 min with the feed pulled after every step; retired |

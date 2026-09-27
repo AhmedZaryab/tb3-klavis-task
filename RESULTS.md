@@ -465,7 +465,7 @@ shape is necessary but not sufficient. The official zero-score tasks also carry 
 read up front (event feeds at cutoffs, scanned images that override structured data), which a complete
 runbook by definition does not. That is the axis for the next design (section 7).
 
-## 7. Candidate 6: desk-shift-feed (hypothesis recorded, not built)
+## 7. Candidate 6: desk-shift-feed (retired)
 
 ### Hypothesis
 
@@ -561,7 +561,42 @@ exactly, and every feed entry must have released.
 
 ### Trials
 
-Kill test running: `tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-feed-v1`.
+Kill test (`tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-feed-v1`, `reasoning_effort=max`):
+
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Amendments | Notes |
+|---|---|---|---|---|---|---|---|
+| probe-feed-v1 | 1.0 (60/60) | 10.0 min | 171 of 300 | 1 (`E_TEMPLATE`) | 0 | 2, both required | 171 native MCP calls, 19 shell calls; 10.0 M input tokens, 53.7 K output |
+
+### Measurements
+
+Reward 1.0 in ten minutes. 171 of 300 budgeted calls, 21 of them feed pulls (one after every resolution
+and amendment, as the runbook says). One error in the whole run: the stale `hold` template, refused by
+the gateway with the list of real templates, corrected on the next call. Every refund amount matched the
+verifier's recomputation at its own clock reading, including the two refunds priced days later than the
+shift start. Both required amendments filed with the right issue kinds and message; no amendment filed
+where none was due, including the dispute on the withdrawn case.
+
+### Analysis
+
+The model read the runbook and its revision note, then read `desk_clock`, and from that point treated
+the gateway as the source of truth: it never assumed the four-hour advance or the 240 budget, it used the
+gateway's key format on the first refund, and the one stale item it did trust (the template name) was
+refused loudly and fixed at once. It pulled the feed after every resolution, mapped each entry to the
+case it affected, and filed exactly the corrective actions the table prescribes. Its order of work was
+the queue order, the same as the reference, so the timeline and the amounts were the reference's. In the
+transcript there is no moment where it acted on a stale picture: the three predicted failure paths, stale
+facts on a handled case, a repeated side effect, and amounts computed from the start of the shift, did
+not occur. The prior of one in three was wrong in the same direction as the earlier candidates.
+
+### Decision and next step
+
+Retired after the kill test, as the hypothesis said: no hardening revision, because the transcript shows
+the model polling the feed after every step and reconciling correctly, and there is no further axis inside
+"stated rules plus a stated source plus a stated staleness" left to try. Six candidates now share one
+result: when everything needed is written down, or is discoverable from a truthful system, Opus 5.5 at
+maximum reasoning executes it. The ten zero-score leaderboard tasks add knowledge that is neither: expert
+judgment that cannot be looked up, or artifacts that must stay correct under change. The agent-gateway
+domain does not supply the first, and the second is the only line left open.
 
 ## 8. Analysis across candidates
 
@@ -673,9 +708,9 @@ cost, and why each line was closed.
 
 | Requirement | Status |
 |---|---|
-| Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5. Candidate 2 shelved before the gates. |
-| Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5. |
-| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes. Requirement not met. |
+| Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5, 6. Candidate 2 shelved before the gates. |
+| Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5, 6. |
+| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes; candidate 6 kill test: pass in 10 min. Requirement not met. |
 | `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
 | `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0; on candidate 5: 0.0 (the agent refused the prompt). |
 | `/cheat` codex x1, reward 0 | Not run. |
@@ -684,9 +719,10 @@ cost, and why each line was closed.
 
 ## 10. Next steps, in loop order
 
-1. Hypothesis first: done, section 7. The decision record for candidate 6 is committed before any build
-   commit; the axis is a feed released at stated cutoffs whose entries change the right answer for work
-   already done, plus a clock that makes amounts depend on when the work is done.
+1. Candidate 6: built, gated and killed in one evening (section 7). The line "stated rules plus a stated
+   source plus a stated staleness" is closed. Any further candidate must change the kind of knowledge
+   required, not the amount of state: an artifact that must stay correct under a change the verifier
+   makes after the agent is done is the one leaderboard pattern not yet tried.
 2. Complete the codex half of the record on candidate 1: `codex login`, then three `/run` trials and one
    `/cheat` trial through `tools/run-trial.sh`, so the brief's matrix has a codex result on the same task as
    the Claude result.
