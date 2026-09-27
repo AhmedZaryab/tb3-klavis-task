@@ -500,3 +500,14 @@ def test_idempotent_replay_ignores_the_reason_text():
     assert conflict["ok"] is False and conflict["error"] == "E_IDEMPOTENCY_CONFLICT"
 
 
+def test_cited_invoice_matches_the_oracle_on_punctuated_bodies():
+    """The verifier tokenised ticket bodies on a few separators while the
+    oracle used a regex, so a body like 'INV-2003?' would have made the two
+    disagree. Both use the same regex now."""
+    for body in ("Refund INV-2003?", "invoice (INV-2003) please", "INV-2003; thanks", "see INV-2003.", "INV-2003,now"):
+        assert rules.cited_invoice({"body": body, "comments": []}) == "INV-2003"
+        assert work_queue.cited({"body": body, "comments": []}) == "INV-2003"
+    assert rules.cited_invoice({"body": "no invoice here", "comments": []}) is None
+    assert rules.cited_invoice({"body": "Refund INV-2103.", "comments": [{"kind": "correction", "invoice_id": "INV-2003"}]}) == "INV-2003"
+
+

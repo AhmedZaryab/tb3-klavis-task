@@ -10,7 +10,10 @@ words, and computes what the runbook required at each moment.
 """
 
 import copy
+import re
 from datetime import date
+
+INVOICE_RE = re.compile(r"INV-\d+")
 
 
 def add_months(d: date, n: int) -> date:
@@ -54,10 +57,8 @@ def cited_invoice(ticket: dict) -> str | None:
     for comment in reversed(ticket.get("comments", [])):
         if comment.get("kind") == "correction":
             return comment["invoice_id"]
-    for token in ticket["body"].replace(".", " ").replace(",", " ").split():
-        if token.startswith("INV-"):
-            return token
-    return None
+    m = INVOICE_RE.search(ticket["body"])
+    return m.group(0) if m else None
 
 
 class Timeline:
