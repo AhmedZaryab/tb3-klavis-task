@@ -486,3 +486,17 @@ def test_refund_now_amendment_expected_even_when_no_refund_is_due():
     want = rules.expected_amendments(rules.Timeline(seed, st.snapshot()))["E-03"]
     assert [w["action"] for w in want] == ["refund_now"]
     assert want[0]["refund"] is None and want[0]["message"]["template"] == "no_refund"
+def test_idempotent_replay_ignores_the_reason_text():
+    """The replay comparison included the free-text reason, so a retry with
+    a reworded reason was refused as a conflict although the same money was
+    meant. Replay now keys on invoice and amount only; a different amount
+    is still a conflict."""
+    st = make_state()
+    first = server.dispatch(st, "billing_refund_create", {"invoice_id": "INV-2001", "amount_cents": 2613, "idempotency_key": "E-01:INV-2001", "reason": "escalation E-01"})
+    again = server.dispatch(st, "billing_refund_create", {"invoice_id": "INV-2001", "amount_cents": 2613, "idempotency_key": "E-01:INV-2001", "reason": "retry"})
+    assert again["ok"] and again["result"]["replayed"] and again["result"]["refund"]["id"] == first["result"]["refund"]["id"]
+    assert len(st.refunds) == 2  # seed refund plus one
+    conflict = server.dispatch(st, "billing_refund_create", {"invoice_id": "INV-2001", "amount_cents": 1, "idempotency_key": "E-01:INV-2001"})
+    assert conflict["ok"] is False and conflict["error"] == "E_IDEMPOTENCY_CONFLICT"
+
+

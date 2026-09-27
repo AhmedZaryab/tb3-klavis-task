@@ -19,9 +19,9 @@ they are simply not part of this workflow.
   Over the limit a call returns `E_RATE_LIMIT` with `retry_after_s`; that call
   did not happen, and it still counted against the budget.
 - `billing_refund_create` needs an `idempotency_key`, which is the escalation
-  id. The same key with the same arguments returns the original refund again
-  and moves no money; the same key with different arguments is refused. An
-  invoice can be refunded once.
+  id. The same key with the same invoice and amount returns the original
+  refund again and moves no money; the same key with a different invoice or
+  amount is refused. An invoice can be refunded once.
 - Refunds, customer messages and closed tickets cannot be undone.
 - `desk_escalation_resolve` is final. Resolving an escalation may release
   follow-up escalations into the queue; the queue is not static. Work until

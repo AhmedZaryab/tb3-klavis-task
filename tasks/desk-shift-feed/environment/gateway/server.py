@@ -426,18 +426,18 @@ def billing_refunds_list(st: State, a: dict):
 
 
 @tool("billing_refund_create",
-      "Refund part or all of a paid invoice to the customer's payment method. Money moves and cannot be recalled. Requires idempotency_key in the form <escalation id>:<invoice id>; one refund per invoice. The refund is stamped with the desk clock.",
+      "Refund part or all of a paid invoice to the customer's payment method. Money moves and cannot be recalled. Requires idempotency_key in the form <escalation id>:<invoice id>; the same key with the same invoice and amount replays the original refund. One refund per invoice. The refund is stamped with the desk clock.",
       {"invoice_id": S, "amount_cents": I, "idempotency_key": S, "reason": S}, ["invoice_id", "amount_cents", "idempotency_key"])
 def billing_refund_create(st: State, a: dict):
     inv = st.invoice(a["invoice_id"])
     if not IK_RE.match(a["idempotency_key"]):
         raise GatewayError("E_IK_FORMAT", "idempotency_key must be <escalation id>:<invoice id>, for example E-01:INV-2001")
-    args = {"invoice_id": a["invoice_id"], "amount_cents": a["amount_cents"], "reason": a.get("reason", "")}
+    args = {"invoice_id": a["invoice_id"], "amount_cents": a["amount_cents"]}
     for r in st.refunds:
         if r["idempotency_key"] == a["idempotency_key"]:
-            if {k: r[k] for k in ("invoice_id", "amount_cents", "reason")} == args:
+            if {k: r[k] for k in ("invoice_id", "amount_cents")} == args:
                 return {"refund": r, "replayed": True}
-            raise GatewayError("E_IDEMPOTENCY_CONFLICT", "idempotency key reused with different arguments")
+            raise GatewayError("E_IDEMPOTENCY_CONFLICT", "idempotency key reused with a different invoice or amount")
     if inv["status"] != "paid":
         raise GatewayError("E_INVOICE_STATUS", f"{inv['id']} is {inv['status']}, not paid")
     if any(r["invoice_id"] == inv["id"] for r in st.refunds):
