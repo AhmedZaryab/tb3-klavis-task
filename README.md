@@ -8,6 +8,9 @@ five CI-clean task packages with sealed verifiers, eleven genuine agent runs, a 
 per-task leaderboard data, and a written analysis of why every design fell, in a git history where each
 hypothesis is committed before its build and each kill test before the next hypothesis.
 
+`REPORT.md` is the author's account: where the idea came from, how the work was run, what was found, and
+what changes in the author's own gateway because of it.
+
 ## Results at a glance
 
 | Candidate | Task | Gates | Kill test (Opus 5.5, max) | Outcome |
