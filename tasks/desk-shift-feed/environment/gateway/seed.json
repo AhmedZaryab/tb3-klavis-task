@@ -1,0 +1,1607 @@
+{
+ "clock_start": "2026-09-14T09:00",
+ "clock_advance_hours": 6,
+ "events": [
+  {
+   "seq": 1,
+   "released_at": "2026-09-14T15:00",
+   "kind": "chargeback_opened",
+   "invoice_id": "INV-2001",
+   "note": "Card issuer opened a dispute on INV-2001."
+  },
+  {
+   "seq": 2,
+   "released_at": "2026-09-14T15:00",
+   "kind": "chargeback_opened",
+   "invoice_id": "INV-2007",
+   "note": "Card issuer opened a dispute on INV-2007."
+  },
+  {
+   "seq": 3,
+   "released_at": "2026-09-15T03:00",
+   "kind": "customer_withdrew",
+   "ticket_id": "T-702",
+   "note": "Customer replied: please ignore my request, I am staying."
+  },
+  {
+   "seq": 4,
+   "released_at": "2026-09-15T03:00",
+   "kind": "invoice_corrected",
+   "ticket_id": "T-703",
+   "invoice_id": "INV-2003",
+   "note": "Customer replied: the invoice is INV-2003, not INV-2103."
+  },
+  {
+   "seq": 5,
+   "released_at": "2026-09-15T15:00",
+   "kind": "customer_withdrew",
+   "ticket_id": "T-712",
+   "note": "Customer replied: we decided to keep the plan."
+  },
+  {
+   "seq": 6,
+   "released_at": "2026-09-16T15:00",
+   "kind": "chargeback_opened",
+   "invoice_id": "INV-2010",
+   "note": "Card issuer opened a dispute on INV-2010."
+  },
+  {
+   "seq": 7,
+   "released_at": "2026-09-17T03:00",
+   "kind": "invoice_paid",
+   "invoice_id": "INV-2011",
+   "note": "Payment received for INV-2011."
+  },
+  {
+   "seq": 8,
+   "released_at": "2026-09-17T15:00",
+   "kind": "customer_withdrew",
+   "ticket_id": "T-708",
+   "note": "Customer replied: never mind."
+  }
+ ],
+ "budget": 300,
+ "rate_limit": {
+  "prefix": "billing_",
+  "calls": 6,
+  "window_s": 10
+ },
+ "customers": [
+  {
+   "id": "C-1001",
+   "name": "Nadia Okafor",
+   "email": "nadia.okafor@brightloom.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1002",
+   "name": "Tomas Lindqvist",
+   "email": "tomas@lindqvist-studio.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1003",
+   "name": "Aiko Tanaka",
+   "email": "aiko.tanaka@kitsune.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1004",
+   "name": "Priya Raman",
+   "email": "priya@ramanlabs.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1005",
+   "name": "Lukas Novak",
+   "email": "lukas.novak@novakgroup.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1006",
+   "name": "Mateo Alvarez",
+   "email": "mateo@alvarez.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": [
+    "chargeback_pending"
+   ]
+  },
+  {
+   "id": "C-1007",
+   "name": "Zofia Kowalski",
+   "email": "zofia@kowalski.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1008",
+   "name": "Idris Bello",
+   "email": "idris.bello@bellofoods.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1009",
+   "name": "Hanna Virtanen",
+   "email": "hanna@virtanen.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1010",
+   "name": "Kwame Mensah",
+   "email": "kwame@mensah.example",
+   "locale": "de-DE",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1011",
+   "name": "Elif Demir",
+   "email": "elif.demir@demir.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1012",
+   "name": "Rafael Costa",
+   "email": "rafael@costa.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1016",
+   "name": "Ingrid Berg",
+   "email": "ingrid@berg.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": [
+    "chargeback_pending"
+   ]
+  },
+  {
+   "id": "C-1017",
+   "name": "Omar Haddad",
+   "email": "omar@haddad.example",
+   "locale": "de-DE",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1018",
+   "name": "Sven Larsen",
+   "email": "sven@larsen.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1103",
+   "name": "Nadia Okafor-Lindqvist",
+   "email": "n.okafor@okalind.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1200",
+   "name": "Omar Adeyemi",
+   "email": "omar.adeyemi@larsen.example",
+   "locale": "de-DE",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1201",
+   "name": "Bastian Karimi",
+   "email": "bastian.karimi@ricci.example",
+   "locale": "de-DE",
+   "contact_channel": "chat",
+   "plan": "monthly",
+   "flags": [
+    "chargeback_pending"
+   ]
+  },
+  {
+   "id": "C-1202",
+   "name": "Amara Tanaka",
+   "email": "amara.tanaka@weber.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1203",
+   "name": "Farah Novak",
+   "email": "farah.novak@adeyemi.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1204",
+   "name": "Niklas Lindqvist",
+   "email": "niklas.lindqvist@berg.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1205",
+   "name": "Amara Byrne",
+   "email": "amara.byrne@demir.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1206",
+   "name": "Priya Ricci",
+   "email": "priya.ricci@ricci.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1207",
+   "name": "Chiara Silva",
+   "email": "chiara.silva@silva.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1208",
+   "name": "Mateo Aydin",
+   "email": "mateo.aydin@weber.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1209",
+   "name": "Elif Nasser",
+   "email": "elif.nasser@vogel.example",
+   "locale": "de-DE",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1210",
+   "name": "Farah Alvarez",
+   "email": "farah.alvarez@larsen.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1211",
+   "name": "Owen Haddad",
+   "email": "owen.haddad@ricci.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1212",
+   "name": "Rafael Novak",
+   "email": "rafael.novak@novak.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1213",
+   "name": "Marta Demir",
+   "email": "marta.demir@mensah.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1214",
+   "name": "Omar Costa",
+   "email": "omar.costa@kowalski.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1215",
+   "name": "Lukas Nasser",
+   "email": "lukas.nasser@haddad.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1216",
+   "name": "Yusuf Bello",
+   "email": "yusuf.bello@ricci.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1217",
+   "name": "Tomas Weber",
+   "email": "tomas.weber@lindqvist.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1218",
+   "name": "Nadia Tanaka",
+   "email": "nadia.tanaka@silva.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1219",
+   "name": "Kwame Lindqvist",
+   "email": "kwame.lindqvist@okafor.example",
+   "locale": "de-DE",
+   "contact_channel": "email",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1220",
+   "name": "Nadia Weber",
+   "email": "nadia.weber@berg.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1221",
+   "name": "Chiara Ricci",
+   "email": "chiara.ricci@ricci.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1222",
+   "name": "Farah Okafor",
+   "email": "farah.okafor@vogel.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1223",
+   "name": "Omar Berg",
+   "email": "omar.berg@demir.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1224",
+   "name": "Sven Virtanen",
+   "email": "sven.virtanen@larsen.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1225",
+   "name": "Rafael Haddad",
+   "email": "rafael.haddad@alvarez.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1226",
+   "name": "Priya Novak",
+   "email": "priya.novak@haddad.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "monthly",
+   "flags": []
+  },
+  {
+   "id": "C-1227",
+   "name": "Tomas Raman",
+   "email": "tomas.raman@aydin.example",
+   "locale": "en-US",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1228",
+   "name": "Yusuf Weber",
+   "email": "yusuf.weber@novak.example",
+   "locale": "en-US",
+   "contact_channel": "email",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1229",
+   "name": "Owen Vogel",
+   "email": "owen.vogel@mensah.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "enterprise",
+   "flags": []
+  },
+  {
+   "id": "C-1230",
+   "name": "Elif Byrne",
+   "email": "elif.byrne@silva.example",
+   "locale": "fr-FR",
+   "contact_channel": "chat",
+   "plan": "annual",
+   "flags": []
+  },
+  {
+   "id": "C-1231",
+   "name": "Sven Haddad",
+   "email": "sven.haddad@raman.example",
+   "locale": "fr-FR",
+   "contact_channel": "email",
+   "plan": "annual",
+   "flags": []
+  }
+ ],
+ "invoices": [
+  {
+   "id": "INV-2001",
+   "customer_id": "C-1001",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-01",
+   "period_end": "2026-10-01"
+  },
+  {
+   "id": "INV-2002",
+   "customer_id": "C-1002",
+   "amount_cents": 12900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-08-20",
+   "period_end": "2026-09-20"
+  },
+  {
+   "id": "INV-2003",
+   "customer_id": "C-1003",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-10",
+   "period_end": "2026-10-10"
+  },
+  {
+   "id": "INV-2004",
+   "customer_id": "C-1004",
+   "amount_cents": 99000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-03-05",
+   "period_end": "2027-03-05"
+  },
+  {
+   "id": "INV-2005",
+   "customer_id": "C-1005",
+   "amount_cents": 250000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-07-01",
+   "period_end": "2027-07-01"
+  },
+  {
+   "id": "INV-2006",
+   "customer_id": "C-1006",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-03",
+   "period_end": "2026-10-03"
+  },
+  {
+   "id": "INV-2007",
+   "customer_id": "C-1007",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-08",
+   "period_end": "2026-10-08"
+  },
+  {
+   "id": "INV-2008",
+   "customer_id": "C-1008",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-08-01",
+   "period_end": "2026-09-01"
+  },
+  {
+   "id": "INV-2009",
+   "customer_id": "C-1009",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-02",
+   "period_end": "2026-10-02"
+  },
+  {
+   "id": "INV-2010",
+   "customer_id": "C-1010",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-04",
+   "period_end": "2026-10-04"
+  },
+  {
+   "id": "INV-2011",
+   "customer_id": "C-1011",
+   "amount_cents": 12900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-09-12",
+   "period_end": "2026-10-12"
+  },
+  {
+   "id": "INV-2016",
+   "customer_id": "C-1011",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-12",
+   "period_end": "2026-10-12"
+  },
+  {
+   "id": "INV-2012",
+   "customer_id": "C-1012",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-10-20",
+   "period_end": "2026-10-20"
+  },
+  {
+   "id": "INV-2013",
+   "customer_id": "C-1016",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-06",
+   "period_end": "2026-10-06"
+  },
+  {
+   "id": "INV-2017",
+   "customer_id": "C-1017",
+   "amount_cents": 120000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-01-15",
+   "period_end": "2027-01-15"
+  },
+  {
+   "id": "INV-2018",
+   "customer_id": "C-1018",
+   "amount_cents": 180000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-05-01",
+   "period_end": "2027-05-01"
+  },
+  {
+   "id": "INV-2103",
+   "customer_id": "C-1103",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-09",
+   "period_end": "2026-10-09"
+  },
+  {
+   "id": "INV-2300",
+   "customer_id": "C-1200",
+   "amount_cents": 341000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-12-12",
+   "period_end": "2026-12-12"
+  },
+  {
+   "id": "INV-2301",
+   "customer_id": "C-1201",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-07-11",
+   "period_end": "2026-08-11"
+  },
+  {
+   "id": "INV-2302",
+   "customer_id": "C-1201",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-06-17",
+   "period_end": "2026-07-17"
+  },
+  {
+   "id": "INV-2303",
+   "customer_id": "C-1201",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-09-15",
+   "period_end": "2026-10-15"
+  },
+  {
+   "id": "INV-2304",
+   "customer_id": "C-1202",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-07-10",
+   "period_end": "2026-08-10"
+  },
+  {
+   "id": "INV-2305",
+   "customer_id": "C-1203",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-08-28",
+   "period_end": "2026-08-28"
+  },
+  {
+   "id": "INV-2306",
+   "customer_id": "C-1203",
+   "amount_cents": 99000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-02-09",
+   "period_end": "2026-02-09"
+  },
+  {
+   "id": "INV-2307",
+   "customer_id": "C-1204",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2026-09-09",
+   "period_end": "2026-10-09"
+  },
+  {
+   "id": "INV-2308",
+   "customer_id": "C-1204",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2026-08-23",
+   "period_end": "2026-09-23"
+  },
+  {
+   "id": "INV-2309",
+   "customer_id": "C-1205",
+   "amount_cents": 182000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-09-13",
+   "period_end": "2026-09-13"
+  },
+  {
+   "id": "INV-2310",
+   "customer_id": "C-1205",
+   "amount_cents": 396000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-02-15",
+   "period_end": "2026-02-15"
+  },
+  {
+   "id": "INV-2311",
+   "customer_id": "C-1206",
+   "amount_cents": 260000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-12-14",
+   "period_end": "2026-12-14"
+  },
+  {
+   "id": "INV-2312",
+   "customer_id": "C-1207",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2026-07-20",
+   "period_end": "2026-08-20"
+  },
+  {
+   "id": "INV-2313",
+   "customer_id": "C-1207",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-08-28",
+   "period_end": "2026-09-28"
+  },
+  {
+   "id": "INV-2314",
+   "customer_id": "C-1207",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-06-12",
+   "period_end": "2026-07-12"
+  },
+  {
+   "id": "INV-2315",
+   "customer_id": "C-1208",
+   "amount_cents": 374000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-04-02",
+   "period_end": "2026-04-02"
+  },
+  {
+   "id": "INV-2316",
+   "customer_id": "C-1209",
+   "amount_cents": 12900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-07-03",
+   "period_end": "2026-08-03"
+  },
+  {
+   "id": "INV-2317",
+   "customer_id": "C-1209",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-06-18",
+   "period_end": "2026-07-18"
+  },
+  {
+   "id": "INV-2318",
+   "customer_id": "C-1210",
+   "amount_cents": 12900,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2026-08-07",
+   "period_end": "2026-09-07"
+  },
+  {
+   "id": "INV-2319",
+   "customer_id": "C-1211",
+   "amount_cents": 120000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-07-25",
+   "period_end": "2026-07-25"
+  },
+  {
+   "id": "INV-2320",
+   "customer_id": "C-1212",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2026-09-09",
+   "period_end": "2026-10-09"
+  },
+  {
+   "id": "INV-2321",
+   "customer_id": "C-1213",
+   "amount_cents": 99000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-08-02",
+   "period_end": "2026-08-02"
+  },
+  {
+   "id": "INV-2322",
+   "customer_id": "C-1213",
+   "amount_cents": 29000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-05-05",
+   "period_end": "2026-05-05"
+  },
+  {
+   "id": "INV-2323",
+   "customer_id": "C-1214",
+   "amount_cents": 49000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-12-02",
+   "period_end": "2026-12-02"
+  },
+  {
+   "id": "INV-2324",
+   "customer_id": "C-1215",
+   "amount_cents": 257000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-11-14",
+   "period_end": "2026-11-14"
+  },
+  {
+   "id": "INV-2325",
+   "customer_id": "C-1215",
+   "amount_cents": 357000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-10-17",
+   "period_end": "2026-10-17"
+  },
+  {
+   "id": "INV-2326",
+   "customer_id": "C-1215",
+   "amount_cents": 368000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-07-22",
+   "period_end": "2026-07-22"
+  },
+  {
+   "id": "INV-2327",
+   "customer_id": "C-1216",
+   "amount_cents": 398000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-04-28",
+   "period_end": "2026-04-28"
+  },
+  {
+   "id": "INV-2328",
+   "customer_id": "C-1216",
+   "amount_cents": 308000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-04-13",
+   "period_end": "2026-04-13"
+  },
+  {
+   "id": "INV-2329",
+   "customer_id": "C-1217",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-07",
+   "period_end": "2026-10-07"
+  },
+  {
+   "id": "INV-2330",
+   "customer_id": "C-1218",
+   "amount_cents": 329000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-12-07",
+   "period_end": "2026-12-07"
+  },
+  {
+   "id": "INV-2331",
+   "customer_id": "C-1219",
+   "amount_cents": 363000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-05-04",
+   "period_end": "2026-05-04"
+  },
+  {
+   "id": "INV-2332",
+   "customer_id": "C-1219",
+   "amount_cents": 364000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-12-07",
+   "period_end": "2026-12-07"
+  },
+  {
+   "id": "INV-2333",
+   "customer_id": "C-1219",
+   "amount_cents": 269000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-02-10",
+   "period_end": "2026-02-10"
+  },
+  {
+   "id": "INV-2334",
+   "customer_id": "C-1220",
+   "amount_cents": 49000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-05-27",
+   "period_end": "2026-05-27"
+  },
+  {
+   "id": "INV-2335",
+   "customer_id": "C-1220",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-06-12",
+   "period_end": "2026-06-12"
+  },
+  {
+   "id": "INV-2336",
+   "customer_id": "C-1221",
+   "amount_cents": 297000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-09-07",
+   "period_end": "2026-09-07"
+  },
+  {
+   "id": "INV-2337",
+   "customer_id": "C-1221",
+   "amount_cents": 378000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-04-15",
+   "period_end": "2026-04-15"
+  },
+  {
+   "id": "INV-2338",
+   "customer_id": "C-1221",
+   "amount_cents": 308000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-01-20",
+   "period_end": "2026-01-20"
+  },
+  {
+   "id": "INV-2339",
+   "customer_id": "C-1222",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-06-19",
+   "period_end": "2026-07-19"
+  },
+  {
+   "id": "INV-2340",
+   "customer_id": "C-1223",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-10-22",
+   "period_end": "2026-10-22"
+  },
+  {
+   "id": "INV-2341",
+   "customer_id": "C-1223",
+   "amount_cents": 29000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-10-18",
+   "period_end": "2026-10-18"
+  },
+  {
+   "id": "INV-2342",
+   "customer_id": "C-1223",
+   "amount_cents": 29000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-07-23",
+   "period_end": "2026-07-23"
+  },
+  {
+   "id": "INV-2343",
+   "customer_id": "C-1224",
+   "amount_cents": 4900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-08-01",
+   "period_end": "2026-09-01"
+  },
+  {
+   "id": "INV-2344",
+   "customer_id": "C-1224",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-08-21",
+   "period_end": "2026-09-21"
+  },
+  {
+   "id": "INV-2345",
+   "customer_id": "C-1225",
+   "amount_cents": 2900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-09-15",
+   "period_end": "2026-10-15"
+  },
+  {
+   "id": "INV-2346",
+   "customer_id": "C-1226",
+   "amount_cents": 7900,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2026-07-12",
+   "period_end": "2026-08-12"
+  },
+  {
+   "id": "INV-2347",
+   "customer_id": "C-1226",
+   "amount_cents": 19900,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2026-07-23",
+   "period_end": "2026-08-23"
+  },
+  {
+   "id": "INV-2348",
+   "customer_id": "C-1227",
+   "amount_cents": 120000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-09-23",
+   "period_end": "2026-09-23"
+  },
+  {
+   "id": "INV-2349",
+   "customer_id": "C-1227",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-12-23",
+   "period_end": "2026-12-23"
+  },
+  {
+   "id": "INV-2350",
+   "customer_id": "C-1227",
+   "amount_cents": 120000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-01-09",
+   "period_end": "2026-01-09"
+  },
+  {
+   "id": "INV-2351",
+   "customer_id": "C-1228",
+   "amount_cents": 186000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-05-28",
+   "period_end": "2026-05-28"
+  },
+  {
+   "id": "INV-2352",
+   "customer_id": "C-1228",
+   "amount_cents": 155000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-08-10",
+   "period_end": "2026-08-10"
+  },
+  {
+   "id": "INV-2353",
+   "customer_id": "C-1228",
+   "amount_cents": 363000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-01-01",
+   "period_end": "2026-01-01"
+  },
+  {
+   "id": "INV-2354",
+   "customer_id": "C-1229",
+   "amount_cents": 350000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-04-27",
+   "period_end": "2026-04-27"
+  },
+  {
+   "id": "INV-2355",
+   "customer_id": "C-1229",
+   "amount_cents": 317000,
+   "currency": "USD",
+   "status": "void",
+   "period_start": "2025-06-28",
+   "period_end": "2026-06-28"
+  },
+  {
+   "id": "INV-2356",
+   "customer_id": "C-1230",
+   "amount_cents": 120000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-03-24",
+   "period_end": "2026-03-24"
+  },
+  {
+   "id": "INV-2357",
+   "customer_id": "C-1230",
+   "amount_cents": 99000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-03-06",
+   "period_end": "2026-03-06"
+  },
+  {
+   "id": "INV-2358",
+   "customer_id": "C-1231",
+   "amount_cents": 60000,
+   "currency": "USD",
+   "status": "paid",
+   "period_start": "2025-12-05",
+   "period_end": "2026-12-05"
+  },
+  {
+   "id": "INV-2359",
+   "customer_id": "C-1231",
+   "amount_cents": 29000,
+   "currency": "USD",
+   "status": "open",
+   "period_start": "2025-10-26",
+   "period_end": "2026-10-26"
+  }
+ ],
+ "refunds": [
+  {
+   "id": "re_seed_0001",
+   "invoice_id": "INV-2009",
+   "amount_cents": 1500,
+   "idempotency_key": "seed-partial-INV-2009",
+   "reason": "goodwill"
+  }
+ ],
+ "tickets": [
+  {
+   "id": "T-701",
+   "requester_email": "nadia.okafor@brightloom.example",
+   "subject": "Cancel and refund",
+   "body": "Please cancel my plan and refund the rest of invoice INV-2001.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-702",
+   "requester_email": "tomas@lindqvist-studio.example",
+   "subject": "Remboursement",
+   "body": "Je souhaite annuler. Facture INV-2002.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-703",
+   "requester_email": "aiko.tanaka@kitsune.example",
+   "subject": "Refund request",
+   "body": "Cancelling. Please refund invoice INV-2103 for the unused time.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-704",
+   "requester_email": "priya@ramanlabs.example",
+   "subject": "Downgrade and refund",
+   "body": "We no longer need the annual plan; refund the unused months of INV-2004.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-705",
+   "requester_email": "lukas.novak@novakgroup.example",
+   "subject": "Contract cancellation",
+   "body": "Terminating the agreement; refund the remaining term on INV-2005.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-706",
+   "requester_email": "mateo@alvarez.example",
+   "subject": "Refund now",
+   "body": "Refund INV-2006 immediately or I dispute it with my bank.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-707",
+   "requester_email": "zofia@kowalski.example",
+   "subject": "Refund",
+   "body": "Refund INV-2007 please.",
+   "status": "closed",
+   "closed_by": "customer",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-708",
+   "requester_email": "idris.bello@bellofoods.example",
+   "subject": "Refund for August",
+   "body": "I did not use the service in August. Refund INV-2008.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-709",
+   "requester_email": "hanna@virtanen.example",
+   "subject": "Cancel",
+   "body": "Cancel and refund what is left of INV-2009.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-710",
+   "requester_email": "kwame@mensah.example",
+   "subject": "Kuendigung",
+   "body": "Bitte kuendigen und den Rest von INV-2010 erstatten.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-711",
+   "requester_email": "elif.demir@demir.example",
+   "subject": "Refund",
+   "body": "Cancel my subscription and refund INV-2011.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-712",
+   "requester_email": "rafael@costa.example",
+   "subject": "Refund unused",
+   "body": "Refund the unused part of INV-2012, we are leaving.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-713",
+   "requester_email": "aiko.tanaka@kitsune.example",
+   "subject": "Re: Refund request",
+   "body": "Sorry, wrong number earlier. The invoice is INV-2003.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-714",
+   "requester_email": "elif.demir@demir.example",
+   "subject": "Re: Refund",
+   "body": "I meant the paid one, INV-2016. Please refund that.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-715",
+   "requester_email": "nadia.okafor@brightloom.example",
+   "subject": "Re: Cancel and refund",
+   "body": "Has the refund for INV-2001 gone out? Please refund it.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-716",
+   "requester_email": "ingrid@berg.example",
+   "subject": "Refund",
+   "body": "Refund INV-2013, I am cancelling.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-717",
+   "requester_email": "omar@haddad.example",
+   "subject": "Erstattung",
+   "body": "Bitte den ungenutzten Rest von INV-2017 erstatten.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-718",
+   "requester_email": "sven@larsen.example",
+   "subject": "Fin de contrat",
+   "body": "Nous resilions. Merci de rembourser INV-2018.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-800",
+   "requester_email": "niklas.lindqvist@berg.example",
+   "subject": "Login issue",
+   "body": "Does the API support webhooks?",
+   "status": "open",
+   "closed_by": "agent",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-801",
+   "requester_email": "mateo.aydin@weber.example",
+   "subject": "Login issue",
+   "body": "Cannot log in since Monday.",
+   "status": "closed",
+   "closed_by": "agent",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-802",
+   "requester_email": "marta.demir@mensah.example",
+   "subject": "Feature question",
+   "body": "Please send a copy of my last invoice.",
+   "status": "closed",
+   "closed_by": "agent",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-803",
+   "requester_email": "omar.costa@kowalski.example",
+   "subject": "Export failing",
+   "body": "Does the API support webhooks?",
+   "status": "closed",
+   "closed_by": "agent",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-804",
+   "requester_email": "lukas.nasser@haddad.example",
+   "subject": "Export failing",
+   "body": "Does the API support webhooks?",
+   "status": "closed",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-805",
+   "requester_email": "yusuf.bello@ricci.example",
+   "subject": "Feature question",
+   "body": "CSV export returns an empty file.",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-806",
+   "requester_email": "nadia.tanaka@silva.example",
+   "subject": "Export failing",
+   "body": "CSV export returns an empty file.",
+   "status": "closed",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-807",
+   "requester_email": "kwame.lindqvist@okafor.example",
+   "subject": "Feature question",
+   "body": "Does the API support webhooks?",
+   "status": "closed",
+   "closed_by": "agent",
+   "opened_at": "2026-09-11"
+  },
+  {
+   "id": "T-808",
+   "requester_email": "farah.okafor@vogel.example",
+   "subject": "Login issue",
+   "body": "Does the API support webhooks?",
+   "status": "open",
+   "closed_by": null,
+   "opened_at": "2026-09-11"
+  }
+ ],
+ "escalations": [
+  {
+   "id": "E-01",
+   "ticket_id": "T-701",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-02",
+   "ticket_id": "T-702",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-03",
+   "ticket_id": "T-703",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-04",
+   "ticket_id": "T-704",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-05",
+   "ticket_id": "T-705",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-06",
+   "ticket_id": "T-706",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-07",
+   "ticket_id": "T-707",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-08",
+   "ticket_id": "T-708",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-09",
+   "ticket_id": "T-709",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-10",
+   "ticket_id": "T-710",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-11",
+   "ticket_id": "T-711",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-12",
+   "ticket_id": "T-712",
+   "reason": "refund_request",
+   "released": true,
+   "released_by": null
+  },
+  {
+   "id": "E-13",
+   "ticket_id": "T-713",
+   "reason": "customer_replied",
+   "released": false,
+   "released_by": "E-03"
+  },
+  {
+   "id": "E-14",
+   "ticket_id": "T-714",
+   "reason": "customer_replied",
+   "released": false,
+   "released_by": "E-11"
+  },
+  {
+   "id": "E-15",
+   "ticket_id": "T-715",
+   "reason": "customer_replied",
+   "released": false,
+   "released_by": "E-01"
+  },
+  {
+   "id": "E-16",
+   "ticket_id": "T-716",
+   "reason": "refund_request",
+   "released": false,
+   "released_by": "E-04"
+  },
+  {
+   "id": "E-17",
+   "ticket_id": "T-717",
+   "reason": "refund_request",
+   "released": false,
+   "released_by": "E-10"
+  },
+  {
+   "id": "E-18",
+   "ticket_id": "T-718",
+   "reason": "refund_request",
+   "released": false,
+   "released_by": "E-12"
+  }
+ ],
+ "resolution_codes": [
+  "REFUNDED",
+  "REFERRED_FINANCE",
+  "CHARGEBACK_HOLD",
+  "NEEDS_INFO",
+  "NO_REFUND_DUE",
+  "WITHDRAWN"
+ ],
+ "amendment_actions": [
+  "chargeback_after_refund",
+  "withdrawn_after_refund",
+  "refund_now",
+  "needs_info_again"
+ ],
+ "templates": [
+  "refunded",
+  "referred",
+  "dispute_hold",
+  "needs_info",
+  "no_refund"
+ ]
+}

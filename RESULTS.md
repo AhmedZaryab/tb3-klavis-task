@@ -465,7 +465,7 @@ shape is necessary but not sufficient. The official zero-score tasks also carry 
 read up front (event feeds at cutoffs, scanned images that override structured data), which a complete
 runbook by definition does not. That is the axis for the next design (section 7).
 
-## 7. Candidate 6: desk-shift-feed (hypothesis recorded, not built)
+## 7. Candidate 6: desk-shift-feed (retired)
 
 ### Hypothesis
 
@@ -512,10 +512,91 @@ clock rule, and states that it is stale where the gateway disagrees; nothing gra
 verifier derives them from the recorded timeline rather than from a fixed answer key; the oracle and the
 verifier implement the arithmetic independently, as in candidate 5.
 
-### Build, controls, trials, measurements, analysis, decision
+### Build
 
-Not started. The next commit on this line is `prepare(feed)` on
-`ticket/tb3-original-task/candidate-desk-feed-task`, branched from this decision record.
+Branch `ticket/tb3-original-task/candidate-desk-feed-task`, branched from the decision record. Candidate
+5's package with the three changes and nothing else. Gateway: 268 tools; every resolution, amendment,
+refund, message, issue and feed release stamped with a global operation number and the desk clock; the
+clock advances six hours per resolution or amendment; eight authored feed entries at cutoffs from six to
+seventy-eight hours after the start, released by the gateway at the first call after their time and
+applied to the backends (flag, ticket closed by the customer, invoice paid, correction comment);
+`desk_escalation_amend` files one corrective action per action per resolved case. Budget 300. The runbook
+states at its top that it predates the gateway's latest changes and is stale in four places: clock
+advance (four hours; the gateway says six), budget (240; the gateway says 300), refund key format (the
+escalation id; the gateway wants `<escalation>:<invoice>`), and the hold template (`hold`; the gateway's
+is `dispute_hold`). Each is discoverable from a tool description, a reply or an error; only the clock
+advance can change a graded amount, and only for an agent that extrapolates instead of reading the clock.
+
+Verifier: `tests/rules.py` replays the recorded timeline. For each resolution it computes the code the
+runbook required on the facts released before that resolution and the refund amount for the clock reading
+of the refund it references; for each released feed entry, the amendment required of each case already
+resolved when it released. Ledgers are compared exactly. Expected outcomes therefore follow the agent's own
+order of work, and the review gate simulated queue order, reverse order, follow-ups first, lazy feed
+pulls, amendments deferred to the end, both orders of the invoice contended by a correction and a
+follow-up, and forty random orders: every runbook-compliant order scores 1, every cheat scores 0.
+
+### Controls
+
+Same harness, runner and flags as candidate 5. Gates:
+
+| Check | Command | Result |
+|---|---|---|
+| Static checks | `for c in scripts/checks/check-*.sh; do bash $c tasks/desk-shift-feed; done` | 25/25 pass, first run and after the fixes |
+| Docker build | part of the oracle run | builds |
+| Oracle | `harbor run -p tasks/desk-shift-feed --agent oracle --env docker --yes` | reward 1.0, 60/60; 197 calls, 4 rate-limit waits, two amendments in queue order, 1 min 2 s total |
+| Nop | `harbor run -p tasks/desk-shift-feed --agent nop --env docker --yes` | reward 0.0, 56/60 fail |
+| Cheat artifact | `cheat/solve.sh` run as the solution | reward 0.0, 40/60 fail; queue emptied with no side effects |
+
+Gateway suite (`tools/feed/test_feed.py`): 15 passed, including the oracle run in-process graded by the
+verifier, a hand-built order that files a refund after a late payment and shows the verifier rejects a
+wrong amount, and a hand-built order in which the follow-up takes the contended invoice first.
+
+Review gate findings and fixes, each fix with its regression test: the runbook now says the `refund_now`
+amendment is filed even when the rules yield no refund, and that a case is judged on the facts at the
+moment it is resolved, so a case's side effects, close and resolution belong together; the refund replay
+keys on invoice and amount, not on the free-text reason; the verifier and the oracle cite invoices with
+the same regex; the verifier image uses the same base tag as the others. No exploit found: the artifact
+comes from the gateway container, references are validated against the real ledgers, ledgers are counted
+exactly, and every feed entry must have released.
+
+### Trials
+
+Kill test (`tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-feed-v1`, `reasoning_effort=max`):
+
+| Trial | Reward | Agent time | Gateway calls | Errors | Wrong-tool calls | Amendments | Notes |
+|---|---|---|---|---|---|---|---|
+| probe-feed-v1 | 1.0 (60/60) | 10.0 min | 171 of 300 | 1 (`E_TEMPLATE`) | 0 | 2, both required | 171 native MCP calls, 19 shell calls; 10.0 M input tokens, 53.7 K output |
+
+### Measurements
+
+Reward 1.0 in ten minutes. 171 of 300 budgeted calls, 21 of them feed pulls (one after every resolution
+and amendment, as the runbook says). One error in the whole run: the stale `hold` template, refused by
+the gateway with the list of real templates, corrected on the next call. Every refund amount matched the
+verifier's recomputation at its own clock reading, including the two refunds priced days later than the
+shift start. Both required amendments filed with the right issue kinds and message; no amendment filed
+where none was due, including the dispute on the withdrawn case.
+
+### Analysis
+
+The model read the runbook and its revision note, then read `desk_clock`, and from that point treated
+the gateway as the source of truth: it never assumed the four-hour advance or the 240 budget, it used the
+gateway's key format on the first refund, and the one stale item it did trust (the template name) was
+refused loudly and fixed at once. It pulled the feed after every resolution, mapped each entry to the
+case it affected, and filed exactly the corrective actions the table prescribes. Its order of work was
+the queue order, the same as the reference, so the timeline and the amounts were the reference's. In the
+transcript there is no moment where it acted on a stale picture: the three predicted failure paths, stale
+facts on a handled case, a repeated side effect, and amounts computed from the start of the shift, did
+not occur. The prior of one in three was wrong in the same direction as the earlier candidates.
+
+### Decision and next step
+
+Retired after the kill test, as the hypothesis said: no hardening revision, because the transcript shows
+the model polling the feed after every step and reconciling correctly, and there is no further axis inside
+"stated rules plus a stated source plus a stated staleness" left to try. Six candidates now share one
+result: when everything needed is written down, or is discoverable from a truthful system, Opus 5.5 at
+maximum reasoning executes it. The ten zero-score leaderboard tasks add knowledge that is neither: expert
+judgment that cannot be looked up, or artifacts that must stay correct under change. The agent-gateway
+domain does not supply the first, and the second is the only line left open.
 
 ## 8. Analysis across candidates
 
@@ -627,9 +708,9 @@ cost, and why each line was closed.
 
 | Requirement | Status |
 |---|---|
-| Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5. Candidate 2 shelved before the gates. |
-| Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5. |
-| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes. Requirement not met. |
+| Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5, 6. Candidate 2 shelved before the gates. |
+| Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5, 6. |
+| `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes; candidate 6 kill test: pass in 10 min. Requirement not met. |
 | `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
 | `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0; on candidate 5: 0.0 (the agent refused the prompt). |
 | `/cheat` codex x1, reward 0 | Not run. |
@@ -638,9 +719,10 @@ cost, and why each line was closed.
 
 ## 10. Next steps, in loop order
 
-1. Hypothesis first: done, section 7. The decision record for candidate 6 is committed before any build
-   commit; the axis is a feed released at stated cutoffs whose entries change the right answer for work
-   already done, plus a clock that makes amounts depend on when the work is done.
+1. Candidate 6: built, gated and killed in one evening (section 7). The line "stated rules plus a stated
+   source plus a stated staleness" is closed. Any further candidate must change the kind of knowledge
+   required, not the amount of state: an artifact that must stay correct under a change the verifier
+   makes after the agent is done is the one leaderboard pattern not yet tried.
 2. Complete the codex half of the record on candidate 1: `codex login`, then three `/run` trials and one
    `/cheat` trial through `tools/run-trial.sh`, so the brief's matrix has a codex result on the same task as
    the Claude result.
