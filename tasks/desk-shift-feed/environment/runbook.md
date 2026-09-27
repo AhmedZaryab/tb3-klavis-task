@@ -56,12 +56,17 @@ the resolved escalation (never by resolving it again):
 |---|---|---|---|
 | `chargeback_opened` on invoice X | `REFUNDED` with a refund on X | `chargeback_after_refund` | `tracker_issue_create` in `FIN`, kind `chargeback_after_refund`; message `hold` |
 | `customer_withdrew` on ticket T | `REFUNDED` | `withdrawn_after_refund` | `tracker_issue_create` in `FIN`, kind `refund_recall_review`; no message |
-| `invoice_paid` on invoice X | `NEEDS_INFO` where the ticket cites X | `refund_now` | refund rules 5 to 7 below on X at the current clock, with the refund and message they produce |
+| `invoice_paid` on invoice X | `NEEDS_INFO` where the ticket cites X | `refund_now` | refund rules 5 to 7 below on X at the current clock, with the refund and message they produce; the amendment is filed even when those rules yield no refund, carrying only the `no_refund` message |
 | `invoice_corrected` on ticket T to invoice X | `NEEDS_INFO` | `refund_now` if X belongs to the account and is `paid`, otherwise `needs_info_again` | `refund_now`: rules 5 to 7 on X at the current clock; `needs_info_again`: message `needs_info` |
 
 A case resolved with any other code needs no amendment for that entry. Each
 amendment advances the clock like a resolution. Pass the ids of the refund,
 issue and message the amendment produced.
+
+A case is judged on the facts at the moment it is resolved. Do a case's side
+effects, ticket close and resolution together, before resolving or amending
+anything else, because each resolution or amendment moves the clock and may
+release facts that change the answer for a case left half done.
 
 ## The workflow, per escalation
 

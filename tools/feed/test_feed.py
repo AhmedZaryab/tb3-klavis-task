@@ -442,3 +442,47 @@ def test_refund_amount_and_add_months_agree_between_rules_and_oracle():
         for n in (1, 2, 11, 12):
             assert rules.add_months(d, n) == work_queue.add_months(d, n)
     assert rules.add_months(date(2026, 1, 31), 1) == date(2026, 2, 28)
+
+
+def make_state() -> "server.State":
+    return new_state(load_seed())
+
+
+def resolve_needs_info(st: "server.State", eid: str) -> None:
+    """Resolve an escalation as NEEDS_INFO with its message and ticket close,
+    the way the runbook prescribes, without deciding anything else."""
+    d = lambda n, **a: server.dispatch(st, n, a)["result"]
+    esc = d("desk_escalation_get", id=eid)
+    ticket = d("helpdesk_ticket_get", id=esc["ticket_id"])
+    cust = d("accounts_customers_search", email=ticket["requester_email"])["customers"][0]
+    tool = "email_send" if cust["contact_channel"] == "email" else "chat_post"
+    msg = d(tool, customer_id=cust["id"], template="needs_info")["message"]["id"]
+    d("helpdesk_ticket_close", id=ticket["id"], code="NEEDS_INFO")
+    d("desk_escalation_resolve", id=eid, code="NEEDS_INFO", message_id=msg)
+
+
+# ---- regression tests from the review gate ---------------------------------
+
+def test_refund_now_amendment_expected_even_when_no_refund_is_due():
+    """When a late correction points at an invoice the follow-up already
+    refunded, the runbook still requires a refund_now amendment carrying
+    only the no_refund message. The runbook table now says so, and the
+    verifier must expect exactly that, not nothing."""
+    seed = load_seed()
+    st = make_state()
+    d = lambda n, **a: server.dispatch(st, n, a)
+    # E-03 resolved NEEDS_INFO first (wrong invoice cited), then E-13 is not
+    # available until E-03 resolves; refund INV-2003 through E-13 before the
+    # correction on T-703 releases at +18 h.
+    resolve_needs_info(st, "E-03")
+    assert "E-13" in [e["id"] for e in d("desk_queue_list")["result"]["escalations"]]
+    refund = d("billing_refund_create", invoice_id="INV-2003", amount_cents=100, idempotency_key="E-13:INV-2003")["result"]["refund"]
+    msg = d("email_send", customer_id="C-1003", template="refunded", vars={"amount": "USD 1.00"})["result"]["message"]["id"]
+    d("helpdesk_ticket_close", id="T-713", code="REFUNDED")
+    d("desk_escalation_resolve", id="E-13", code="REFUNDED", refund_id=refund["id"], message_id=msg)
+    resolve_needs_info(st, "E-11")  # third tick: clock reaches +18 h, correction releases on the next call
+    d("desk_clock")
+    assert any(ev["kind"] == "invoice_corrected" and ev["released"] for ev in st.events)
+    want = rules.expected_amendments(rules.Timeline(seed, st.snapshot()))["E-03"]
+    assert [w["action"] for w in want] == ["refund_now"]
+    assert want[0]["refund"] is None and want[0]["message"]["template"] == "no_refund"
