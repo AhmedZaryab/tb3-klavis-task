@@ -512,10 +512,56 @@ clock rule, and states that it is stale where the gateway disagrees; nothing gra
 verifier derives them from the recorded timeline rather than from a fixed answer key; the oracle and the
 verifier implement the arithmetic independently, as in candidate 5.
 
-### Build, controls, trials, measurements, analysis, decision
+### Build
 
-Not started. The next commit on this line is `prepare(feed)` on
-`ticket/tb3-original-task/candidate-desk-feed-task`, branched from this decision record.
+Branch `ticket/tb3-original-task/candidate-desk-feed-task`, branched from the decision record. Candidate
+5's package with the three changes and nothing else. Gateway: 268 tools; every resolution, amendment,
+refund, message, issue and feed release stamped with a global operation number and the desk clock; the
+clock advances six hours per resolution or amendment; eight authored feed entries at cutoffs from six to
+seventy-eight hours after the start, released by the gateway at the first call after their time and
+applied to the backends (flag, ticket closed by the customer, invoice paid, correction comment);
+`desk_escalation_amend` files one corrective action per action per resolved case. Budget 300. The runbook
+states at its top that it predates the gateway's latest changes and is stale in four places: clock
+advance (four hours; the gateway says six), budget (240; the gateway says 300), refund key format (the
+escalation id; the gateway wants `<escalation>:<invoice>`), and the hold template (`hold`; the gateway's
+is `dispute_hold`). Each is discoverable from a tool description, a reply or an error; only the clock
+advance can change a graded amount, and only for an agent that extrapolates instead of reading the clock.
+
+Verifier: `tests/rules.py` replays the recorded timeline. For each resolution it computes the code the
+runbook required on the facts released before that resolution and the refund amount for the clock reading
+of the refund it references; for each released feed entry, the amendment required of each case already
+resolved when it released. Ledgers are compared exactly. Expected outcomes therefore follow the agent's own
+order of work, and the review gate simulated queue order, reverse order, follow-ups first, lazy feed
+pulls, amendments deferred to the end, both orders of the invoice contended by a correction and a
+follow-up, and forty random orders: every runbook-compliant order scores 1, every cheat scores 0.
+
+### Controls
+
+Same harness, runner and flags as candidate 5. Gates:
+
+| Check | Command | Result |
+|---|---|---|
+| Static checks | `for c in scripts/checks/check-*.sh; do bash $c tasks/desk-shift-feed; done` | 25/25 pass, first run and after the fixes |
+| Docker build | part of the oracle run | builds |
+| Oracle | `harbor run -p tasks/desk-shift-feed --agent oracle --env docker --yes` | reward 1.0, 60/60; 197 calls, 4 rate-limit waits, two amendments in queue order, 1 min 2 s total |
+| Nop | `harbor run -p tasks/desk-shift-feed --agent nop --env docker --yes` | reward 0.0, 56/60 fail |
+| Cheat artifact | `cheat/solve.sh` run as the solution | reward 0.0, 40/60 fail; queue emptied with no side effects |
+
+Gateway suite (`tools/feed/test_feed.py`): 15 passed, including the oracle run in-process graded by the
+verifier, a hand-built order that files a refund after a late payment and shows the verifier rejects a
+wrong amount, and a hand-built order in which the follow-up takes the contended invoice first.
+
+Review gate findings and fixes, each fix with its regression test: the runbook now says the `refund_now`
+amendment is filed even when the rules yield no refund, and that a case is judged on the facts at the
+moment it is resolved, so a case's side effects, close and resolution belong together; the refund replay
+keys on invoice and amount, not on the free-text reason; the verifier and the oracle cite invoices with
+the same regex; the verifier image uses the same base tag as the others. No exploit found: the artifact
+comes from the gateway container, references are validated against the real ledgers, ledgers are counted
+exactly, and every feed entry must have released.
+
+### Trials
+
+Kill test running: `tools/run-trial.sh claude anthropic/claude-opus-5-5 probe-feed-v1`.
 
 ## 8. Analysis across candidates
 
