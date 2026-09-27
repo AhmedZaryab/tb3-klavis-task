@@ -1,13 +1,13 @@
 # Results
 
-One original Terminal-Bench 3 task, built to the current TB3 CI and tested against the agents named in
-the brief. This file is written as a research log. Section 1 states the method once: the question, how the
-prediction is written down, what is held fixed, what is measured, how runs are analysed, and the rule for
-iterating. Sections 2 to 6 apply that method to each of the five candidate designs in the order they were
-tried, every one under the same headings, with the commits that hold each step. Section 7 is the
-hypothesis for candidate 6, recorded before its build; section 8 the analysis across candidates; section 9
-the status against the brief; section 10 the next steps in loop order. Raw harbor output lives under
-`runs/` (not committed).
+Six candidate designs for one original Terminal-Bench 3 task, each built to the current TB3 CI and
+tested against the agent named in the brief, and the record of why each was retired. This file is written
+as a research log. Section 1 states the method once: the question, how the prediction is written down,
+what is held fixed, what is measured, how runs are analysed, and the rule for iterating. Sections 2 to 7
+apply that method to each of the six candidate designs in the order they were tried, every one under the
+same headings, with the commits that hold each step. Section 8 is the analysis across candidates; section
+9 the status against the brief; section 10 where this stands and what would come next. Raw harbor output
+lives under `runs/` (not committed).
 
 ## 1. Method
 
@@ -87,7 +87,8 @@ into `main`. Commit prefixes map to loop steps:
 | `merge` | close one turn of the loop | the subject line states the outcome |
 
 Timeline: candidate 1 and its fallback (candidate 2) on 2026-09-25 evening; the pivot record, candidates 3
-and 4, the Claude half of the matrix, the leaderboard study and candidate 5 on 2026-09-26.
+and 4, the Claude half of the matrix, the leaderboard study, candidate 5 and candidate 6 on 2026-09-26. Two
+calendar days, 98 commits, 23 merged pull requests.
 
 ## 2. Candidate 1: batch-tool-dispatch (retired)
 
@@ -469,7 +470,8 @@ runbook by definition does not. That is the axis for the next design (section 7)
 
 ### Hypothesis
 
-Decision record, written before any build commit, per the iteration rule in 1.6.
+Decision record `ff4efb1`, 2026-09-26 19:05, and its addition `662f8e0` at 19:57, both committed before
+the first build commit `6431f2e` at 20:05, per the iteration rule in 1.6.
 
 Axis changed from candidate 5, and only this axis: the agent must go and read information that is not in
 the runbook and that changes the right answer to work it has already done. Candidate 5 keeps its gateway,
@@ -602,11 +604,12 @@ domain does not supply the first, and the second is the only line left open.
 
 ### 8.1 What the trials show
 
-The brief asks for a task that both agents fail three times out of three. This repository does not yet
-deliver that. Across five candidate designs, four of them passing every CI gate, Claude Opus 5.5 at maximum
-reasoning solved each on the first attempt: 71, 4, 6, 6 and 9 minutes in the kill tests, and 99, 39 and 92
-minutes in the three required trials on candidate 1. No trial crashed, timed out, hit a rate limit or
-refused; every pass is genuine. The codex half of the matrix has not been run.
+The brief asks for a task that both agents fail three times out of three. This repository does not
+deliver that. Across six candidate designs, five of them passing every CI gate, Claude Opus 5.5 at maximum
+reasoning solved each on the first attempt: 71, 4, 6, 6, 9 and 10 minutes in the kill tests, 99, 39 and 92
+minutes in the three required trials on candidate 1, and 8.7 to 10.8 minutes in three trials on candidate
+5. Eleven runs, eleven rewards of 1.0. No trial crashed, timed out, hit a rate limit or fell back to
+another model; every pass is genuine. The codex half of the matrix was not run, by decision (section 9).
 
 ### 8.2 Why the models succeed
 
@@ -627,6 +630,10 @@ minutes, builds several independent checkers of its own, and stops only when the
 - Candidate 5 put the leaderboard's hardest shape behind a 266-tool MCP gateway. The model used the gateway
   natively, picked the right tool 149 times out of 149, and matched the reference's call pattern. Its harness
   loads tools lazily, and the runbook named the path.
+- Candidate 6 made the clock move, made facts arrive after decisions, and made the runbook stale in stated
+  places. The model read the clock before every amount, pulled the feed after every step, filed exactly the
+  corrective actions required, and treated the runbook's numbers as hypotheses to check. Announced staleness
+  is not a lever; it is an instruction to verify, and the model follows it.
 
 The pattern across the published attempts surveyed holds here: what still beats these models is knowledge
 that cannot be written down without becoming a hidden rule (real document layouts, real legacy runtime
@@ -699,10 +706,13 @@ rather than in the rules. That is fair under the rubric as long as the instructi
 
 ### 8.5 What this repository shows so far
 
-Five complete TB3 task packages, four of them CI-clean with sealed verifiers, honest oracles and cheat
+Six complete TB3 task packages, five of them CI-clean with sealed verifiers, honest oracles and cheat
 artifacts that all score zero; a kill-test discipline that measured each design against the target model
-within hours of building it; and a record, in the git history and in this file, of what was tried, what it
-cost, and why each line was closed.
+within hours of building it, eleven genuine runs in all; a study of the official per-task leaderboard data
+that turned the fifth and sixth designs from guesses into tests of a stated hypothesis; and a record, in
+the git history and in this file, of what was tried, what it cost, and why each line was closed. The
+negative result is the finding: in a domain where every rule can be stated and every fact can be asked of a
+truthful system, a fair TB3 task does not defeat Opus 5.5 at maximum reasoning.
 
 ## 9. Status against the brief
 
@@ -711,22 +721,22 @@ cost, and why each line was closed.
 | Static checks, rubric, Docker build, oracle, nop | Passed on candidates 1, 3, 4, 5, 6. Candidate 2 shelved before the gates. |
 | Verifier not exploitable (cheat artifact 0.0) | Passed on candidates 1, 3, 4, 5, 6. |
 | `/run` claude-code, opus-5.5 max, x3, all genuine fails | Run on candidate 1: 3/3 genuine passes; also on candidate 5 as extra evidence: 3/3 passes; candidate 6 kill test: pass in 10 min. Requirement not met. |
-| `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run. The codex login is not yet set up on the build machine. |
+| `/run` codex, gpt-6-sol xhigh, x3, all genuine fails | Not run, by decision. The subscription auth path in the brief needs a paid ChatGPT plan the author chose not to buy, and the exercise was time-boxed at two days. The runner supports it unchanged (`tools/run-trial.sh codex openai/gpt-6-sol <job>`). Because every Claude kill test passed, a codex result could not have changed the outcome against the brief: a task one agent solves cannot meet it. |
 | `/cheat` claude-code x1, reward 0 | Done on candidate 1: 0.0; on candidate 5: 0.0 (the agent refused the prompt). |
-| `/cheat` codex x1, reward 0 | Not run. |
-| Failure analysis | Written for the passes (section 8); there are no model failures to analyse yet. |
+| `/cheat` codex x1, reward 0 | Not run, same decision. |
+| Failure analysis | There are no model failures to analyse. Every pass is analysed instead, per candidate (sections 2 to 7) and across candidates (section 8): what the model read first, when it stated its plan, whether it hit any trap, and why the trap did not hold. |
+| Additional evidence | The live CI pair at the time of writing (`claude-fable-5-1`) run once on candidate 1: pass in 113 min. Consistency on candidate 5: 3/3 passes, no pass^k collapse. |
 | Commands, configs, results documented | This file and `tools/run-trial.sh`. |
 
-## 10. Next steps, in loop order
+## 10. Where this stands and what would come next
 
-1. Candidate 6: built, gated and killed in one evening (section 7). The line "stated rules plus a stated
-   source plus a stated staleness" is closed. Any further candidate must change the kind of knowledge
-   required, not the amount of state: an artifact that must stay correct under a change the verifier
-   makes after the agent is done is the one leaderboard pattern not yet tried.
-2. Complete the codex half of the record on candidate 1: `codex login`, then three `/run` trials and one
-   `/cheat` trial through `tools/run-trial.sh`, so the brief's matrix has a codex result on the same task as
-   the Claude result.
-3. Build candidate 6, pass the gates, run the kill test. If it survives, run the six-trial matrix and the two
-   adversarial trials on it; if not, one hardening revision, then retire and record.
-4. Analyse every transcript, pass or fail, under the headings in section 1.5, and record it here the same
-   day as the run.
+1. The line "stated rules, plus a stated source, plus a stated staleness" is closed by candidate 6. Every
+   design in it was solved, and each pass was traced to the same cause: the model executes what is written
+   down or discoverable. Further work on this line would be repetition.
+2. The one leaderboard pattern not tried is an artifact that must stay correct under a change the verifier
+   makes after the agent is done (the CAD, build-pipeline and anonymizer tasks). It is fair under the
+   rubric if the instruction names the kind of change. It leaves the agent-gateway domain, which was the
+   point of this work, so it is recorded here as the next hypothesis and not built.
+3. If the matrix were to be completed for the record, the codex half runs unchanged through
+   `tools/run-trial.sh codex openai/gpt-6-sol <job>` after `codex login`, three trials and one cheat trial on
+   candidate 1, with the results appended to section 2.
